@@ -20,12 +20,7 @@
 
 ## Installation
 
-Install Tech-Admin With Simple Steps
-
-```bash
-git clone https://github.com/TechTool-India/techtool-laravel-admin.git
-cd techtool-laravel-admin
-```
+Install Solar
 
 Install All Packages of laravel
 ```bash
