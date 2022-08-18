@@ -25,7 +25,7 @@ Auth::routes(['register' => false]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Profile Routes
-Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
+Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'getProfile'])->name('detail');
     Route::post('/update', [HomeController::class, 'updateProfile'])->name('update');
     Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
@@ -38,7 +38,7 @@ Route::resource('roles', App\Http\Controllers\RolesController::class);
 Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
 // Users 
-Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
+Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('/create', [UserController::class, 'create'])->name('create');
     Route::post('/store', [UserController::class, 'store'])->name('store');
@@ -47,11 +47,12 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
 
-    
+
     Route::get('/import-users', [UserController::class, 'importUsers'])->name('import');
     Route::post('/upload-users', [UserController::class, 'uploadUsers'])->name('upload');
 
     Route::get('export/', [UserController::class, 'export'])->name('export');
-
 });
 
+//Alerts
+Route::resource('alertgroup', App\Http\Controllers\AlertController::class);
