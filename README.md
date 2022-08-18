@@ -1,11 +1,4 @@
 
-# Tech-Admin | Laravel 8 + Bootstrap 4 
-
-Tech-Admin is Admin Panel With Preset of Roles, Permissions, ACL, User Management, Profile Management.
-
-
-
-
 ## Features
 
 - Mobile Responsive Bootstrap 4 Design
@@ -65,7 +58,7 @@ All Set ! now serve laravel app on local and open app in browser.
 Login With Admin
 ```bash
 Username - admin@admin.com
-Password - Admin@123#
+Password - admin
 ```
 ## Screenshots
 
