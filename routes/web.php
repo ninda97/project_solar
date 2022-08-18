@@ -31,11 +31,12 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function (
     Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
 });
 
-// Roles
-Route::resource('roles', App\Http\Controllers\RolesController::class);
+// Alert
+Route::resource('alert', App\Http\Controllers\AlertController::class);
+Route::resource('alertgroup', App\Http\Controllers\AlertGroupController::class);
 
 // Permissions
-Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
+// Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
@@ -55,4 +56,4 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
 });
 
 //Alerts
-Route::resource('alertgroup', App\Http\Controllers\AlertController::class);
+// Route::resource('alertgroup', App\Http\Controllers\AlertController::class);

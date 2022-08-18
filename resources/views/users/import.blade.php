@@ -23,50 +23,96 @@
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    Data Alert Telegram
                 </div>
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Alert ID</th>
-                                <th>Node Name</th>
+                                <th>Node</th>
                                 <th>IP Address</th>
-                                <th>Message</th>
-                                <th>Chat ID</th>
-                                <th>PIC</th>
-                                <th>Created</th>
+                                <th>Location</th>
+                                <th>CPU Load</th>
+                                <th>Percent Memory Used</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($list_alert as $result)
                             <tr>
-                                <td>{{ $result->id }}</td>
-                                <td>{{ $result->alertid }}</td>
-                                <td>{{ $result->nodename }}</td>
-                                <td>{{ $result->nodeipaddress }}</td>
-                                <td>{{ $result->alertmessage }}</td>
-                                <td>{{ $result->chatid }}</td>
-                                <td>{{ $result->pic }}</td>
-                                <td>{{ $result->created }}</td>
+                                <td>8274829</td>
+                                <td>VMW-PROD-DB-SPAN</td>
+                                <td>172.99.32.32</td>
+                                <td>DC Sentul</td>
+                                <td>14%</td>
+                                <td>92%</td>
+                                <td>
+                                    <span class="badge bg-warning">Warning</span>
+                                </td>
                             </tr>
-                            @endforeach
+                            <tr>
+                                <td>8274829</td>
+                                <td>VMW-PROD-DB-SPAN</td>
+                                <td>172.99.32.32</td>
+                                <td>DC Sentul</td>
+                                <td>14%</td>
+                                <td>92%</td>
+                                <td>
+                                    <span class="badge bg-danger">Critical</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8274829</td>
+                                <td>VMW-PROD-DB-SPAN</td>
+                                <td>172.99.32.32</td>
+                                <td>DC Sentul</td>
+                                <td>14%</td>
+                                <td>92%</td>
+                                <td>
+                                    <span class="badge bg-warning">Warning</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8274829</td>
+                                <td>VMW-PROD-DB-SPAN</td>
+                                <td>172.99.32.32</td>
+                                <td>DC Sentul</td>
+                                <td>14%</td>
+                                <td>92%</td>
+                                <td>
+                                    <span class="badge bg-warning">Warning</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8274829</td>
+                                <td>VMW-PROD-DB-SPAN</td>
+                                <td>172.99.32.32</td>
+                                <td>DC Sentul</td>
+                                <td>14%</td>
+                                <td>92%</td>
+                                <td>
+                                    <span class="badge bg-danger">Critical</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8274829</td>
+                                <td>VMW-PROD-DB-SPAN</td>
+                                <td>172.99.32.32</td>
+                                <td>DC Sentul</td>
+                                <td>14%</td>
+                                <td>92%</td>
+                                <td>
+                                    <span class="badge bg-warning">Warning</span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
         </section>
-
     </div>
 
 </div>
 
-<script src="{{asset ('style/assets/vendors/simple-datatables/simple-datatables.js') }}"></script>
-<script>
-    // Simple Datatable
-    let table1 = document.querySelector('#table1');
-    let dataTable = new simpleDatatables.DataTable(table1);
-</script>
+
 @endsection

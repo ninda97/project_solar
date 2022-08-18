@@ -59,9 +59,9 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Role & Permissions</h6>
-                <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
-                <a class="collapse-item" href="{{ route('permissions.index') }}">Permissions</a>
+                <h6 class="collapse-header">Alerts</h6>
+                <a class="collapse-item" href="{{ route('alert.index') }}">Alert & PIC</a>
+                <a class="collapse-item" href="{{ route('alertgroup.index') }}">Alert Detail</a>
             </div>
         </div>
     </li>

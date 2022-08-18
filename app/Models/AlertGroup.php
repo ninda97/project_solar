@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AlertGroup extends Model
 {
-    use HasFactory;
+    protected $table = "alertgroup";
+
+    protected $fillable = ['alertid', 'nodename', 'nodeipaddress', 'location', 'cpuload', 'memoryused', 'status'];
 }
