@@ -16,55 +16,54 @@
     @include('common.alert')
 
     <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Alert Telegram</h6>
-        </div>
-        <section class="section">
-            <div class="card">
-                <div class="card-header">
-                    Data Alert Telegram
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped" id="table1">
-                        <thead>
-                            <tr>
-                                <th>AlertGroupID</th>
-                                <th>Alert ID</th>
-                                <th>Node Name</th>
-                                <th>Node IP Address</th>
-                                <th>Location</th>
-                                <th>CPU Load</th>
-                                <th>Percent Memory Used</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                                <th>Updated</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($list_alertgroup as $result)
-                            <tr>
-                                <td>{{ $result->alertgroupid }}</td>
-                                <td>{{ $result->alertid }}</td>
-                                <td>{{ $result->nodename }}</td>
-                                <td>{{ $result->nodeipaddress }}</td>
-                                <td>{{ $result->location }}</td>
-                                <td>{{ $result->cpuload }}</td>
-                                <td>{{ $result->memoryused }}</td>
-                                <td>
-                                    <span if={{$result->status=='Down'}} class="badge bg-danger">{{ $result->status }}</span>
-                                    <span if={{$result->status=='Warning'}} class="badge bg-warning">{{ $result->status }}</span>
-                                </td>
-                                <td>{{ $result->created_at }}</td>
-                                <td>{{ $result->updated_at }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+    <section class="section">
+        <div class="card table-responsive">
+            <div class="card-header">
+                Data Alert Telegram
             </div>
-        </section>
-    </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>AlertGroupID</th>
+                            <th>Alert ID</th>
+                            <th>Node Name</th>
+                            <th>Node IP Address</th>
+                            <th>Location</th>
+                            <th>CPU Load</th>
+                            <th>Percent Memory Used</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list_alertgroup as $result)
+                        <tr>
+                            <td>{{ $result->alertgroupid }}</td>
+                            <td>{{ $result->alertid }}</td>
+                            <td>{{ $result->nodename }}</td>
+                            <td>{{ $result->nodeipaddress }}</td>
+                            <td>{{ $result->location }}</td>
+                            <td>{{ $result->cpuload }}</td>
+                            <td>{{ $result->memoryused }}</td>
+                            <td>
+                                @if($result->status=='Down') <span class="badge bg-danger"> {{ $result->status }}</span> @endif
+                                @if($result->status=='Warning') <span class="badge bg-warning"> {{ $result->status }}</span> @endif
+                            </td>
+                            <td>{{ $result->created_at }}</td>
+                            <td>{{ $result->updated_at }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Data Alert Telegram<
+    </div> -->
 
 </div>
 
