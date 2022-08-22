@@ -17,3 +17,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
++
+Route::get('/alertgroup', function() {
+    
+    return AlertGroup::all();
+
+});
+
+Route::put('/alertgroup', function() {
+    return AlertGroup::create([
+        'alertid' => request('alertid'),
+        'nodename' => request('nodename'),
+        'nodeipaddress' => request('nodeipaddress'),
+        'location' => request('location'),
+        'cpuload' => request('cpuload'),
+        'memoryused' => request('memoryused'),
+        'status' => request('status')
+    ]);
+});
