@@ -53,7 +53,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-exclamation-triangle"></i>
             <span>Alerts</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -61,6 +61,33 @@
                 <h6 class="collapse-header">Alerts</h6>
                 <a class="collapse-item" href="{{ route('alert.index') }}">Alert & PIC</a>
                 <a class="collapse-item" href="{{ route('alertgroup.index') }}">Alert Detail</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    @endhasrole
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    @hasrole('Admin')
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Tickets Section
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTicket" aria-expanded="true" aria-controls="collapseTicket">
+            <i class="fa fa-ticket"></i>
+            <span>Tickets</span>
+        </a>
+        <div id="collapseTicket" class="collapse" aria-labelledby="headingTicket" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Incident Tickets</h6>
+                <a class="collapse-item" href="{{ route('trx_ticket.index') }}">Incident</a>
             </div>
         </div>
     </li>

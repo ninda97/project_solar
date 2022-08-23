@@ -38,6 +38,8 @@ Route::resource('alertgroup', App\Http\Controllers\AlertGroupController::class);
 // Permissions
 // Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
+//Ticket
+Route::resource('trx_ticket', App\Http\Controllers\TicketController::class);
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');
