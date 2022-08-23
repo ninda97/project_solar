@@ -106,4 +106,8 @@ class HomeController extends Controller
             return back()->with('error', $th->getMessage());
         }
     }
+
+    public function Chart(Request $request)
+    {
+    }
 }
