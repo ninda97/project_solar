@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\AlertGroup;
+use App\Models\TrxTicket;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,19 +22,34 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/alertgroup', function() {
-    
+
     return AlertGroup::all();
+
+    var_dump(AlertGroup:all());
 
 });
 
 Route::put('/alertgroup', function() {
+
+    if(request('status') == 'down'){
+        TrxTicket::create([
+            'alertid' => request('alertid'),
+            'chatid' => request('chatid'),
+            'title' => 'Server Down',
+            'tickettype' => 'Incident'
+        ]);
+    }    
+
     return AlertGroup::create([
         'alertid' => request('alertid'),
         'nodename' => request('nodename'),
         'nodeipaddress' => request('nodeipaddress'),
+        'nodegroup' => request('nodegroup'),
         'location' => request('location'),
         'cpuload' => request('cpuload'),
         'memoryused' => request('memoryused'),
-        'status' => request('status')
+        'status' => request('status'),
+        'alertmessage' => request('alertmessage'),
+        'chatid' => request('chatid')
     ]);
 });

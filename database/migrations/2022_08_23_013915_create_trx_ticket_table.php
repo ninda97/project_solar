@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('alerts', function (Blueprint $table) {
+        Schema::create('trx_ticket', function (Blueprint $table) {
             $table->id();
             $table->integer('alertid');
-            $table->string('nodename', 50);
-            $table->string('nodeipaddress', 25);
-            $table->string('alertmessage', 30);
-            $table->string('chatid', 15);
-            $table->string('pic', 50);
-            $table->timestamp('created');
+            $table->integer('chatid');
+            $table->string('title', 50);
+            $table->string('tickettype', 15);
+            $table->timestamps();
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alerts');
+        Schema::dropIfExists('trx_ticket');
     }
 };

@@ -9,5 +9,5 @@ class AlertGroup extends Model
 {
     protected $table = "alertgroup";
 
-    protected $fillable = ['alertid', 'nodename', 'nodeipaddress', 'location', 'cpuload', 'memoryused', 'status'];
+    protected $fillable = ['alertid', 'nodename', 'nodeipaddress','nodegroup', 'location', 'cpuload', 'memoryused', 'status', 'chatid', 'alertmessage'];
 }
