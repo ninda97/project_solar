@@ -67,7 +67,7 @@ class UserController extends Controller
         $request->validate([
             'name'    => 'required',
             'email'         => 'required|unique:users,email',
-            'chat_id' => 'required|numeric',
+            'chatid' => 'required|numeric',
             'role_id'       =>  'required|exists:roles,id',
         ]);
 
@@ -78,7 +78,7 @@ class UserController extends Controller
             $user = User::create([
                 'name'    => $request->name,
                 'email'         => $request->email,
-                'chat_id' => $request->chat_id,
+                'chatid' => $request->chatid,
                 'role_id'       => $request->role_id,
                 'password'      => Hash::make($request->password)
             ]);
@@ -165,7 +165,7 @@ class UserController extends Controller
         $request->validate([
             'first_name'    => 'required',
             'email'         => 'required|unique:users,email,' . $user->id . ',id',
-            'chat_id' => 'required|numeric',
+            'chatid' => 'required|numeric',
             'role_id'       =>  'required|exists:roles,id',
         ]);
 
@@ -176,7 +176,7 @@ class UserController extends Controller
             $user_updated = User::whereId($user->id)->update([
                 'name'    => $request->name,
                 'email'         => $request->email,
-                'chat_id' => $request->chat_id,
+                'chatid' => $request->chatid,
                 'role_id'       => $request->role_id,
                 'password'       => $request->password,
             ]);

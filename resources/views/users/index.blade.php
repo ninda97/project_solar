@@ -44,7 +44,7 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->chat_id }}</td>
+                            <td>{{ $user->chatid }}</td>
                             <td>{{ $user->roles ? $user->roles->pluck('name')->first() : 'N/A' }}</td>
                             <td style="display: flex">
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary m-2">

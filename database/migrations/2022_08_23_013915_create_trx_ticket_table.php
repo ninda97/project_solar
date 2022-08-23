@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('trx_ticket', function (Blueprint $table) {
             $table->id();
             $table->integer('alertid');
-            $table->integer('chatid');
+            $table->string('chatid');
             $table->string('title', 50);
             $table->string('tickettype', 15);
             $table->timestamps();

@@ -53,7 +53,7 @@ class HomeController extends Controller
         #Validations
         $request->validate([
             'name'    => 'required',
-            'chat_id' => 'required',
+            'chatid' => 'required',
         ]);
 
         try {
@@ -62,7 +62,7 @@ class HomeController extends Controller
             #Update Profile Data
             User::whereId(auth()->user()->id)->update([
                 'name' => $request->name,
-                'chat_id' => $request->chat_id,
+                'chatid' => $request->chatid,
             ]);
 
             #Commit Transaction
