@@ -21,7 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'chat_id',
+        'chatid',
         'role_id',
         'password',
     ];
