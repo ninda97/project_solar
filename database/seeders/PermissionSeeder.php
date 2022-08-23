@@ -48,5 +48,13 @@ class PermissionSeeder extends Seeder
         // Admin Role Sync Permission
         $user = User::where('role_id', 1)->first();
         $user->assignRole($role->id);
+
+        //Give Role Staff Permission
+        $staff_role = Role::whereId(2)->first();
+        $staff_role->givePermissionTo('sees-own-alert');
+
+        //Give Permission to staff role
+        $staff_permission = User::where('role_id', 2)->first();
+        $staff_permission->assignRole($staff_role->id);
     }
 }

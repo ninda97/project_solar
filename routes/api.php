@@ -21,24 +21,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/alertgroup', function() {
+Route::get('/alertgroup', function () {
 
     return AlertGroup::all();
 
-    var_dump(AlertGroup:all());
-
+    var_dump(AlertGroup: all());
 });
 
-Route::put('/alertgroup', function() {
+Route::put('/alertgroup', function () {
 
-    if(request('status') == 'down'){
+    if (request('status') == 'Down') {
         TrxTicket::create([
             'alertid' => request('alertid'),
             'chatid' => request('chatid'),
             'title' => 'Server Down',
             'tickettype' => 'Incident'
         ]);
-    }    
+    }
 
     return AlertGroup::create([
         'alertid' => request('alertid'),

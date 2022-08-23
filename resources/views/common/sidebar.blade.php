@@ -21,6 +21,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    @hasrole('Admin')
     <!-- Heading -->
     <div class="sidebar-heading">
         Management
@@ -43,8 +44,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    @endhasrole
 
-    @hasrole('Admin')
     <!-- Heading -->
     <div class="sidebar-heading">
         Alert Section
@@ -67,12 +68,10 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-    @endhasrole
 
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    @hasrole('Admin')
     <!-- Heading -->
     <div class="sidebar-heading">
         Tickets Section
@@ -94,7 +93,6 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-    @endhasrole
 
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
