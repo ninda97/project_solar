@@ -60,8 +60,8 @@
                     {{-- Chat ID --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Chat ID</label>
-                        <input type="text" class="form-control form-control-user @error('chatid') is-invalid @enderror" id="chatid" placeholder="Chat ID" name="chatid" value="{{ $user->chatid }}">
-                        @error('chatid')
+                        <input type="text" class="form-control form-control-user @error('chat_id') is-invalid @enderror" id="chat_id" placeholder="Chat ID" name="chat_id" value="{{ $user->chat_id }}">
+                        @error('chat_id')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

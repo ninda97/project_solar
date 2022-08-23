@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
         $user = User::create([
             'name'     => 'Admin',
             'email'         =>  'admin@admin.com',
-            'chatid' =>  '9028187696',
+            'chat_id' =>  '9028187696',
             'password'      =>  Hash::make('admin'),
             'role_id'       => 1
         ]);
