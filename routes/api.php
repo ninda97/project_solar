@@ -25,19 +25,9 @@ Route::get('/alertgroup', function () {
 
     return AlertGroup::all();
 
-    var_dump(AlertGroup: all());
 });
 
-Route::put('/alertgroup', function () {
-
-    if (request('status') == 'Down') {
-        TrxTicket::create([
-            'alertid' => request('alertid'),
-            'chatid' => request('chatid'),
-            'title' => 'Server Down',
-            'tickettype' => 'Incident'
-        ]);
-    }
+Route::put('/alertgroup', function() { 
 
     return AlertGroup::create([
         'alertid' => request('alertid'),
@@ -51,4 +41,33 @@ Route::put('/alertgroup', function () {
         'alertmessage' => request('alertmessage'),
         'chatid' => request('chatid')
     ]);
+    if(strtolower(request('status')) == 'down'){
+        TrxTicket::create([
+            'alertid' => request('alertid'),
+            'chatid' => request('chatid'),
+            'title' => 'Server Down',
+            'tickettype' => 'Incident'
+        ]);
+    }
+});
+
+Route::get('/ticket', function() {
+
+    $return = DB::table('trx_ticket')
+    ->join('users', 'users.chatid', '=', 'trx_ticket.chatid')
+    ->get();
+
+    return($return);
+
+});
+
+Route::get('/ticket/{id}', function($id) {
+
+    $return = DB::table('trx_ticket')
+    ->join('users', 'users.chatid', '=', 'trx_ticket.chatid')
+    ->where('trx_ticket.chatid', '=', $id)
+    ->get();
+
+    return($return);
+
 });
