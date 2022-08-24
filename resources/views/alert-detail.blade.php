@@ -45,11 +45,12 @@
                             <td>{{ $result->nodename }}</td>
                             <td>{{ $result->nodeipaddress }}</td>
                             <td>{{ $result->location }}</td>
-                            <td>{{ $result->cpuload }}</td>
-                            <td>{{ $result->memoryused }}</td>
+                            <td>{{ $result->cpuload }}%</td>
+                            <td>{{ $result->memoryused }}%</td>
                             <td>
-                                @if($result->status=='Down') <span class="badge bg-danger"> {{ $result->status }}</span> @endif
-                                @if($result->status=='Warning') <span class="badge bg-warning"> {{ $result->status }}</span> @endif
+                                @if($result->status==2) <span class="badge bg-danger" style="color:white"> {{ $result->description }}</span> @endif
+                                @if($result->status==3) <span class="badge bg-warning" style="color:white"> {{ $result->description }}</span> @endif
+                                @if($result->status!=2 && $result->status!=3) <span> {{ $result->description }}</span> @endif
                             </td>
                             <td>{{ $result->created_at }}</td>
                         </tr>

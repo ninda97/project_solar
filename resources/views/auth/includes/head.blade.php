@@ -6,10 +6,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{config('name', 'Solar')}} | @yield('title')</title>
+    <title>{{config('name', 'Alert')}} | @yield('title')</title>
 
     {{-- ICON --}}
-    <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/icon.png') }}" />
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/btn.jpg') }}" />
 
     <!-- Font Awesome UI KIT-->
     <script src="https://kit.fontawesome.com/f75ab26951.js" crossorigin="anonymous"></script>

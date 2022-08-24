@@ -9,7 +9,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('name', 'Solar') }} | @yield('title')</title>
+    <title>{{ config('name', 'Alert') }} | @yield('title')</title>
 
     {{-- ICON --}}
     <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/btn.jpg') }}" />
