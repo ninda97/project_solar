@@ -13,23 +13,24 @@
     {{-- Alert Messages --}}
     @include('common.alert')
 
-    <!-- DataTales Example -->
+    @hasrole('Admin')
+    <!-- DataTables Ticket -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Ticket Incidents</h6>
+            <h6 class="m-0 font-weight-bold text-primary">All Incident Tickets</h6>
         </div>
-        @hasrole('Admin')
+
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="20%">Ticket ID</th>
-                            <th width="20%">Alert ID</th>
-                            <th width="20%">Assign To</th>
-                            <th width="40%">Title</th>
-                            <th width="40%">Ticket Type</th>
-                            <th width="40%">Created</th>
+                            <th class="col-auto">Ticket ID</th>
+                            <th class="col-auto">Alert ID</th>
+                            <th class="col-auto">Assign To</th>
+                            <th class="col-auto">Title</th>
+                            <th class="col-auto">Ticket Type</th>
+                            <th class="col-auto">Created Time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,19 +48,24 @@
                 </table>
             </div>
         </div>
+    </div>
 
-        @else
+    @else
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">My Incident Tickets</h6>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="20%">Ticket ID</th>
-                            <th width="20%">Alert ID</th>
-                            <th width="20%">Assign To</th>
-                            <th width="40%">Title</th>
-                            <th width="40%">Ticket Type</th>
-                            <th width="40%">Created</th>
+                            <th class="col-auto">Ticket ID</th>
+                            <th class="col-auto">Alert ID</th>
+                            <th class="col-auto">Assign To</th>
+                            <th class="col-auto">Title</th>
+                            <th class="col-auto">Ticket Type</th>
+                            <th class="col-auto">Created Time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,10 +85,7 @@
                 </table>
             </div>
         </div>
-        @endhasrole
     </div>
-
+    @endhasrole
 </div>
-
-
 @endsection
