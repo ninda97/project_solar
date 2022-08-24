@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\AlertGroup;
 use App\Models\TrxTicket;
+use App\Models\Status;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +22,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/alertgroup', function () {
+Route::get('/alertgroup', function() {
 
-    return AlertGroup::all();
+    
+    $return = DB::table('alertgroup')
+    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+    ->get();
+
+    return($return);
 
 });
 
-Route::put('/alertgroup', function() { 
+Route::put('/alertgroup', function() {
 
-    return AlertGroup::create([
+    error_log(request());
+
+    $result = AlertGroup::create([
         'alertid' => request('alertid'),
         'nodename' => request('nodename'),
         'nodeipaddress' => request('nodeipaddress'),
@@ -41,7 +50,9 @@ Route::put('/alertgroup', function() {
         'alertmessage' => request('alertmessage'),
         'chatid' => request('chatid')
     ]);
-    if(strtolower(request('status')) == 'down'){
+    
+    if(request('status') == 2){
+        error_log('masukkk');
         TrxTicket::create([
             'alertid' => request('alertid'),
             'chatid' => request('chatid'),
@@ -49,6 +60,9 @@ Route::put('/alertgroup', function() {
             'tickettype' => 'Incident'
         ]);
     }
+
+    return($result);
+
 });
 
 Route::get('/ticket', function() {
