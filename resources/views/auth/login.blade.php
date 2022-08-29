@@ -18,6 +18,7 @@
                     <div class="col-lg-6">
                         <div class="p-5">
                             <div class="text-center">
+                            <img src="{{asset('images/btn_rem.png')}}" width="200">
                                 <h1 class="h4 text-gray-900 mb-4">Login</h1>
                             </div>
 
@@ -69,7 +70,7 @@
     </div>
 
     <div class="text-center mt-5">
-        <h6 class="text-white">Developed By : <a class="text-white" href="https://btn.co.id">OJT App Support A&N</a></h6>
+        <h6 class="text-white">Developed By : <a class="text-white" href="{{route('login')}}">OJT App Support A&N</a></h6>
     </div>
 
 </div>
