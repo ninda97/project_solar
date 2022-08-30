@@ -56,7 +56,7 @@
 
 </div>
 
-<script src="{{asset ('style/assets/vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
 <script>
     // Simple Datatable
     let table1 = document.querySelector('#table1');

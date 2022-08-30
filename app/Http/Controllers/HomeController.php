@@ -35,7 +35,7 @@ class HomeController extends Controller
      * User Profile
      * @param Nill
      * @return View Profile
-     * @author Shani Singh
+     * @author A&N
      */
     public function getProfile()
     {
@@ -46,7 +46,7 @@ class HomeController extends Controller
      * Update Profile
      * @param $profileData
      * @return Boolean With Success Message
-     * @author Shani Singh
+     * @author A&N
      */
     public function updateProfile(Request $request)
     {
@@ -80,7 +80,7 @@ class HomeController extends Controller
      * Change Password
      * @param Old Password, New Password, Confirm New Password
      * @return Boolean With Success Message
-     * @author Shani Singh
+     * @author A&N
      */
     public function changePassword(Request $request)
     {

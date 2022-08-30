@@ -17,10 +17,10 @@ class AlertGroupController extends Controller
     public function index()
     {
         $list_alertgroup = DB::table('alertgroup')
-        ->select('alertgroup.*','users.name', 'status.description')
-        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-        ->get();
+            ->select('alertgroup.*', 'users.name', 'status.description')
+            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+            ->get();
 
         return view('alert-detail', compact('list_alertgroup'));
     }
@@ -54,7 +54,8 @@ class AlertGroupController extends Controller
      */
     public function show($id)
     {
-        //
+        $alert = AlertGroup::where('alertgroupid', $id)->first();
+        return view('each-alert', compact('alert'));
     }
 
     /**

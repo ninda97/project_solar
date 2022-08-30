@@ -32,14 +32,15 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function (
 });
 
 // Alert
-Route::resource('alert', App\Http\Controllers\AlertController::class);
-Route::resource('alertgroup', App\Http\Controllers\AlertGroupController::class);
+Route::resource('alert', AlertController::class);
+Route::resource('alertgroup', AlertGroupController::class);
+// Route::get('/show/{alertgroupid}', [AlertGroupController::class, 'show'])->name('show');
 
 // Permissions
 // Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
 //Ticket
-Route::resource('trx_ticket', App\Http\Controllers\TicketController::class);
+Route::resource('trx_ticket', TicketController::class);
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');
