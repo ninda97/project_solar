@@ -17,7 +17,6 @@ class AlertGroupController extends Controller
      */
     public function index()
     {
-        $list_alertgroup = AlertGroup::paginate(5);
         $list_alertgroup = DB::table('alertgroup')
             ->select('alertgroup.*', 'users.name', 'status.description')
             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')

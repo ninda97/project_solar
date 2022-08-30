@@ -16,10 +16,10 @@ class AlertController extends Controller
     public function index()
     {
         $list_alert = DB::table('alertgroup')
-        ->select('alertgroup.*','users.name', 'status.description')
-        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-        ->get();
+            ->select('alertgroup.*', 'users.name', 'status.description')
+            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+            ->paginate(5);
 
         return view('data-alert', compact('list_alert'));
     }

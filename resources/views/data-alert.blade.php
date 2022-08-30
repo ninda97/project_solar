@@ -20,6 +20,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Data Alert Telegram</h6>
         </div>
+        @hasrole('Admin')
         <section class="section">
             <div class="card">
                 <div class="card-body">
@@ -47,11 +48,45 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $list_alert->links() }}
                 </div>
             </div>
-
         </section>
-
+        @else
+        <section class="section">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                                <th>Alert ID</th>
+                                <th>Node Name</th>
+                                <th>IP Address</th>
+                                <th>Message</th>
+                                <th>PIC</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list_alert as $result)
+                            <tr>
+                                @if($result->chatid == auth()->user()->chatid)
+                                <td>{{ $result->alertid }}</td>
+                                <td>{{ $result->nodename }}</td>
+                                <td>{{ $result->nodeipaddress }}</td>
+                                <td>{{ $result->alertmessage }}</td>
+                                <td>{{ $result->name }}</td>
+                                <td>{{ $result->created_at }}</td>
+                                @endif
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $list_alert->links() }}
+                </div>
+            </div>
+        </section>
+        @endhasrole
     </div>
 
 </div>
