@@ -22,7 +22,7 @@ class AlertGroupController extends Controller
             ->select('alertgroup.*', 'users.name', 'status.description')
             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
             ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-            ->paginate(5);
+            ->paginate(10);
 
         return view('alert-detail', [
             'list_alertgroup' => $list_alertgroup
@@ -58,7 +58,13 @@ class AlertGroupController extends Controller
      */
     public function show($id)
     {
-        $alert = AlertGroup::where('alertgroupid', $id)->first();
+        $alert = DB::table('alertgroup')
+            ->select('alertgroup.*', 'users.name', 'status.description')
+            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+            ->where('alertgroupid', $id)
+            ->first();
+            
         return view('each-alert', compact('alert'));
     }
 

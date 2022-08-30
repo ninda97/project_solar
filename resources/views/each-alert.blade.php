@@ -63,7 +63,7 @@
                 {{-- status --}}
                 <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                     <label>Status</label>
-                    <input type="text" class="form-control" id="status" name="status" value="{{$alert->status}}" disabled>
+                    <input type="text" class="form-control" id="status" name="status" value="{{$alert->description}}" disabled>
                 </div>
 
                 {{-- created_at --}}
