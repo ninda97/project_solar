@@ -22,19 +22,14 @@
         </div>
         <section class="section">
             <div class="card">
-                <div class="card-header">
-                    Data Alert Telegram
-                </div>
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Alert ID</th>
                                 <th>Node Name</th>
                                 <th>IP Address</th>
                                 <th>Message</th>
-                                <th>Chat ID</th>
                                 <th>PIC</th>
                                 <th>Created</th>
                             </tr>
@@ -42,14 +37,12 @@
                         <tbody>
                             @foreach($list_alert as $result)
                             <tr>
-                                <td>{{ $result->id }}</td>
                                 <td>{{ $result->alertid }}</td>
                                 <td>{{ $result->nodename }}</td>
                                 <td>{{ $result->nodeipaddress }}</td>
                                 <td>{{ $result->alertmessage }}</td>
-                                <td>{{ $result->chatid }}</td>
-                                <td>{{ $result->pic }}</td>
-                                <td>{{ $result->created }}</td>
+                                <td>{{ $result->name }}</td>
+                                <td>{{ $result->created_at }}</td>
                             </tr>
                             @endforeach
                         </tbody>

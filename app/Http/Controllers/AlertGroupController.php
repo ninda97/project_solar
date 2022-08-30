@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AlertGroup;
 use App\Models\Alert;
+use Illuminate\Support\Facades\DB;
 
 class AlertGroupController extends Controller
 {
@@ -15,7 +16,12 @@ class AlertGroupController extends Controller
      */
     public function index()
     {
-        $list_alertgroup = AlertGroup::all();
+        $list_alertgroup = DB::table('alertgroup')
+        ->select('alertgroup.*','users.name', 'status.description')
+        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+        ->get();
+
         return view('alert-detail', compact('list_alertgroup'));
     }
 

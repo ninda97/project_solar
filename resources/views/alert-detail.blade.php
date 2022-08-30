@@ -45,11 +45,12 @@
                             <td>{{ $result->nodename }}</td>
                             <td>{{ $result->nodeipaddress }}</td>
                             <td>{{ $result->location }}</td>
-                            <td>{{ $result->cpuload }}</td>
-                            <td>{{ $result->memoryused }}</td>
+                            <td>{{ $result->cpuload }}%</td>
+                            <td>{{ $result->memoryused }}%</td>
                             <td>
-                                @if($result->status=='Down') <span class="badge bg-danger"> {{ $result->status }}</span> @endif
-                                @if($result->status=='Warning') <span class="badge bg-warning"> {{ $result->status }}</span> @endif
+                                @if($result->status==2) <span class="badge bg-danger" style="color:white"> {{ $result->description }}</span> @endif
+                                @if($result->status==13) <span class="badge bg-critical" style="color:white"> {{ $result->description }}</span> @endif
+                                @if($result->status==3) <span class="badge bg-warning" style="color:white"> {{ $result->description }}</span> @endif
                             </td>
                             <td>{{ $result->created_at }}</td>
                         </tr>
@@ -69,7 +70,6 @@
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
-                            <th class="col-auto">NO</th>
                             <th class="col-auto">Alert ID</th>
                             <th class="col-auto">Node Name</th>
                             <th class="col-auto">Node IP Address</th>
@@ -78,26 +78,24 @@
                             <th class="col-auto">Percent Memory Used</th>
                             <th class="col-auto">Status</th>
                             <th class="col-auto">Created</th>
-                            <th class="col-auto">Updated</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list_alertgroup as $result)
                         <tr>
                             @if($result->chatid == auth()->user()->chatid)
-                            <td>{{ $result->alertgroupid }}</td>
                             <td>{{ $result->alertid }}</td>
                             <td>{{ $result->nodename }}</td>
                             <td>{{ $result->nodeipaddress }}</td>
                             <td>{{ $result->location }}</td>
-                            <td>{{ $result->cpuload }}</td>
-                            <td>{{ $result->memoryused }}</td>
+                            <td>{{ $result->cpuload }}%</td>
+                            <td>{{ $result->memoryused }}%</td>
                             <td>
-                                @if($result->status=='Down') <span class="badge bg-danger"> {{ $result->status }}</span> @endif
-                                @if($result->status=='Warning') <span class="badge bg-warning"> {{ $result->status }}</span> @endif
+                                @if($result->status==2) <span class="badge bg-danger" style="color:white"> {{ $result->description }}</span> @endif
+                                @if($result->status==3) <span class="badge bg-warning" style="color:white"> {{ $result->description }}</span> @endif
+                                @if($result->status!=2 && $result->status!=3) <span> {{ $result->description }}</span> @endif
                             </td>
                             <td>{{ $result->created_at }}</td>
-                            <td>{{ $result->updated_at }}</td>
                         </tr>
                         @endif
                         @endforeach

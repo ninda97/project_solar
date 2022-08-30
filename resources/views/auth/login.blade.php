@@ -6,7 +6,7 @@
 <div class="row justify-content-center">
 
     <div class="text-center mt-5">
-        <h1 class="text-white">Solar - Solarwinds Integration to Autoticketing</h1>
+        <h1 class="text-white">Alert Notification - Event Management</h1>
     </div>
 
     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -18,7 +18,8 @@
                     <div class="col-lg-6">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                            <img src="{{asset('images/btn_rem.png')}}" width="200">
+                                <h1 class="h4 text-gray-900 mb-4">Login</h1>
                             </div>
 
                             @if (session('error'))
@@ -69,7 +70,7 @@
     </div>
 
     <div class="text-center mt-5">
-        <h6 class="text-white">Developed By : <a class="text-white" href="https://btn.co.id">OJT App Support A&N</a></h6>
+        <h6 class="text-white">Developed By : <a class="text-white" href="{{route('login')}}">OJT App Support A&N</a></h6>
     </div>
 
 </div>
