@@ -43,6 +43,14 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="col-md-4">
+                            <label class="labels">Chat ID</label>
+                            <input type="text" class="form-control @error('chatid') is-invalid @enderror" name="chatid" placeholder="Chat ID" value="{{ old('chatid') ? old('chatid') : auth()->user()->chatid }}">
+
+                            @error('chatid')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary profile-button" type="submit">Update Profile</button>

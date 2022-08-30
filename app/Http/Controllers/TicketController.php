@@ -16,8 +16,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $return = DB::table('trx_ticket')
-            ->join('users', 'users.chatid', '=', 'trx_ticket.chatid')
+        $return = DB::table('users')
+            ->join('trx_ticket', 'users.chatid', '=', 'trx_ticket.chatid')
+            ->orderBy('users.id')
             ->get();
 
         return view('ticket', [
