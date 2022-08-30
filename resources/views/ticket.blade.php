@@ -46,6 +46,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $trx_tickets->links() }}
             </div>
         </div>
     </div>
@@ -83,6 +84,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $trx_tickets->links() }}
             </div>
         </div>
     </div>

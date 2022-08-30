@@ -62,6 +62,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $list_alertgroup->links() }}
             </div>
         </div>
     </section>
@@ -106,22 +107,12 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $list_alertgroup->links() }}
             </div>
         </div>
     </section>
     @endhasrole
-    <!-- <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Alert Telegram<
-    </div> -->
 
 </div>
 
-<script src="{{asset ('style/assets/vendors/simple-datatables/simple-datatables.js') }}"></script>
-<script>
-    // Simple Datatable
-    $(document).ready(function() {
-        $('#table1').DataTable();
-    });
-</script>
 @endsection

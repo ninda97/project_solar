@@ -19,7 +19,7 @@ class TicketController extends Controller
         $return = DB::table('users')
             ->join('trx_ticket', 'users.chatid', '=', 'trx_ticket.chatid')
             ->orderBy('users.id')
-            ->get();
+            ->paginate(1);
 
         return view('ticket', [
             'trx_tickets' => $return

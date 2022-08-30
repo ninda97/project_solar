@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AlertGroup;
 use App\Models\Alert;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class AlertGroupController extends Controller
 {
@@ -16,13 +17,16 @@ class AlertGroupController extends Controller
      */
     public function index()
     {
+        $list_alertgroup = AlertGroup::paginate(5);
         $list_alertgroup = DB::table('alertgroup')
             ->select('alertgroup.*', 'users.name', 'status.description')
             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
             ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-            ->get();
+            ->paginate(5);
 
-        return view('alert-detail', compact('list_alertgroup'));
+        return view('alert-detail', [
+            'list_alertgroup' => $list_alertgroup
+        ]);
     }
 
     /**
