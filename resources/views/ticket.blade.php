@@ -73,7 +73,7 @@
                         @foreach ($trx_tickets as $ticket)
                         <tr>
                             @if($ticket->chatid == auth()->user()->chatid)
-                            <td>{{$ticket->id}}</td>
+                            <td>{{$ticket->ticketid}}</td>
                             <td>{{$ticket->alertid}}</td>
                             <td>{{$ticket->chatid}}</td>
                             <td>{{$ticket->title}}</td>
