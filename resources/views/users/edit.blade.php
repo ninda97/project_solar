@@ -30,7 +30,7 @@
                     {{-- Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Name</label>
-                        <input type="text" class="form-control form-control-user @error('name') is-invalid @enderror" id="Name" placeholder="Name" name="name" value="{{ $user->name }}">
+                        <input type="text" class="form-control form-control-user @error('name') is-invalid @enderror" id="name" name="name" value="{{ $user->name }}">
 
                         @error('name')
                         <span class="text-danger">{{$message}}</span>
@@ -40,19 +40,9 @@
                     {{-- Email --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Email</label>
-                        <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="exampleEmail" placeholder="Email" name="email" value="{{ $user->email }}">
+                        <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="email" name="email" value="{{ $user->email }}">
 
                         @error('email')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Password --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Password</label>
-                        <input type="text" class="form-control form-control-user @error('password') is-invalid @enderror" id="password" placeholder="New Password" name="password" value="{{ old('password') }}">
-
-                        @error('password')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -60,7 +50,7 @@
                     {{-- Chat ID --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Chat ID</label>
-                        <input type="text" class="form-control form-control-user @error('chatid') is-invalid @enderror" id="chatid" placeholder="Chat ID" name="chatid" value="{{ $user->chatid }}">
+                        <input type="text" class="form-control form-control-user @error('chatid') is-invalid @enderror" id="chatid" name="chatid" value="{{ $user->chatid }}">
                         @error('chatid')
                         <span class="text-danger">{{$message}}</span>
                         @enderror

@@ -41,6 +41,8 @@
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
+                        @if($user->visibility==2)
+                        @else
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
@@ -50,11 +52,31 @@
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal{{$user->id}}">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                                <div class="modal fade" id="deleteModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalExample">Are you Sure You wanted to Delete?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Select "Delete" below if you want to delete User!.</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-danger m-2" href="{{route('users.destroy', ['user' => $user->id])}}">
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -66,7 +88,7 @@
 
 </div>
 
-@include('users.delete-modal')
+<!-- @include('users.delete-modal') -->
 
 @endsection
 

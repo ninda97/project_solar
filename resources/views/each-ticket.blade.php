@@ -24,9 +24,9 @@
         <div class="card-body">
             <div class="form-group row">
 
-                {{-- Ticket ID --}}
+                {{-- Alert ID --}}
                 <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                    <label>Ticket ID</label>
+                    <label>Alert ID</label>
                     <input type="text" class="form-control" id="ticketid" name="ticketid" value="{{ $ticket->alertid }}" disabled>
                 </div>
 

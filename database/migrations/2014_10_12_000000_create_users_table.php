@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('role_id')->default(2)->comment('1=Admin, 2=User');
+            $table->integer('visibility')->default(1)->comment('1=show, 2=hidden');
             $table->rememberToken();
             $table->timestamps();
         });

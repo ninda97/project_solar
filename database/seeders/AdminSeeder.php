@@ -22,15 +22,17 @@ class AdminSeeder extends Seeder
             'email'         =>  'admin@admin.com',
             'chatid' =>  '1475588494',
             'password'      =>  Hash::make('admin'),
-            'role_id'       => 1
+            'role_id'       => 1,
+            'visibility'       => 1
         ]);
 
         $staff_permission = User::create([
             'name'     => 'Ninda',
             'email'         =>  'ninda@gmail.com',
             'chatid' =>  '5127815236',
-            'password'      =>  Hash::make('admin'),
-            'role_id'       => 1
+            'password'      =>  Hash::make('qwerty'),
+            'role_id'       => 2,
+            'visibility'    => 1
         ]);
     }
 }

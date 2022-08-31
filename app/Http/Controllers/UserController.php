@@ -80,7 +80,8 @@ class UserController extends Controller
                 'email'         => $request->email,
                 'chatid' => $request->chatid,
                 'role_id'       => $request->role_id,
-                'password'      => Hash::make($request->password)
+                'password'      => Hash::make($request->password),
+                'visibility'       => 1
             ]);
 
             // Delete Any Existing Role
@@ -163,7 +164,7 @@ class UserController extends Controller
     {
         // Validations
         $request->validate([
-            'first_name'    => 'required',
+            'name'    => 'required',
             'email'         => 'required|unique:users,email,' . $user->id . ',id',
             'chatid' => 'required|numeric',
             'role_id'       =>  'required|exists:roles,id',
@@ -177,8 +178,7 @@ class UserController extends Controller
                 'name'    => $request->name,
                 'email'         => $request->email,
                 'chatid' => $request->chatid,
-                'role_id'       => $request->role_id,
-                'password'       => $request->password,
+                'role_id'       => $request->role_id
             ]);
 
             // Delete Any Existing Role
@@ -207,8 +207,11 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Delete User
-            User::whereId($user->id)->delete();
+            // Delete User from list
+
+            $user_hide = User::find($user->id)->update([
+                'visibility'    => 2
+            ]);
 
             DB::commit();
             return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');

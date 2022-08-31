@@ -35,7 +35,7 @@
                             <th class="col-auto">Percent Memory Used</th>
                             <th class="col-auto">Status</th>
                             <th class="col-auto">Created</th>
-                            <th class="col-auto">Detail</th>
+                            <!-- <th class="col-auto">Detail</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -54,10 +54,10 @@
                                 @if($result->status==3) <span class="badge bg-warning" style="color:white"> {{ $result->description }}</span> @endif
                             </td>
                             <td>{{ $result->created_at }}</td>
-                            <td><a href="{{ route('alertgroup.show', [$result->alertgroupid]) }}" class="btn btn-primary m-2">
+                            <!-- <td><a href="{{ route('alertgroup.show', [$result->alertgroupid]) }}" class="btn btn-primary m-2">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
-                            </td>
+                            </td> -->
                         </tr>
                         @endforeach
                     </tbody>
