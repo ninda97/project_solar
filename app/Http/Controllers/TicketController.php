@@ -55,8 +55,14 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        //
+        $ticket = DB::table('trx_ticket')
+            ->join('users', 'users.chatid', '=', 'trx_ticket.chatid')
+            ->where('trx_ticket.ticketid', $id)
+            ->first();
+
+        return view('each-ticket', compact('ticket'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

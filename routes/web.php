@@ -34,7 +34,6 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function (
 // Alert
 Route::resource('alert', AlertController::class);
 Route::resource('alertgroup', AlertGroupController::class);
-// Route::get('/show/{alertgroupid}', [AlertGroupController::class, 'show'])->name('show');
 
 // Permissions
 // Route::resource('permissions', App\Http\Controllers\PermissionsController::class);

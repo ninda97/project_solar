@@ -31,17 +31,22 @@
                             <th class="col-auto">Title</th>
                             <th class="col-auto">Ticket Type</th>
                             <th class="col-auto">Created Time</th>
+                            <th class="col-auto">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($trx_tickets as $ticket)
                         <tr>
-                            <td>{{$ticket->id}}</td>
+                            <td>{{$ticket->ticketid}}</td>
                             <td>{{$ticket->alertid}}</td>
                             <td>{{$ticket->chatid}}</td>
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
+                            <td><a href="{{ route('trx_ticket.show', [$ticket->ticketid]) }}" class="btn btn-primary m-2">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -67,6 +72,7 @@
                             <th class="col-auto">Title</th>
                             <th class="col-auto">Ticket Type</th>
                             <th class="col-auto">Created Time</th>
+                            <th class="col-auto">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +85,10 @@
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
+                            <td><a href="{{ route('trx_ticket.show', [$ticket->ticketid]) }}" class="btn btn-primary m-2">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                            </td>
                             @endif
                         </tr>
                         @endforeach
