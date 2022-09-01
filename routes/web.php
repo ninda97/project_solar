@@ -4,7 +4,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +23,6 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/h', function () {
-    return view('welcome1', ['users' => User::get(),]);
-});
 
 // Profile Routes
 Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {

@@ -37,13 +37,13 @@
                     <tbody>
                         @foreach ($trx_tickets as $ticket)
                         <tr>
-                            <td>{{$ticket->id}}</td>
+                            <td>{{$ticket->ticketid}}</td>
                             <td>{{$ticket->alertid}}</td>
-                            <td>{{$ticket->name}}</td>
+                            <td>{{$ticket->chatid}}</td>
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
-                            <td style="text-align: center;"><a href="{{ route('trx_ticket.show', [$ticket->id]) }}" class="btn btn-primary m-2">
+                            <td><a href="{{ route('trx_ticket.show', [$ticket->ticketid]) }}" class="btn btn-primary m-2">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                             </td>
