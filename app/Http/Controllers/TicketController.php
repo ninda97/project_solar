@@ -16,9 +16,11 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $return = DB::table('users')
-            ->join('trx_ticket', 'users.chatid', '=', 'trx_ticket.chatid')
-            ->orderBy('users.id')
+        $return = DB::table('trx_ticket')
+            ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+            ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
+            ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
+            ->orderBy('trx_ticket.created_at')
             ->get();
         // ->paginate(1);
 
@@ -58,7 +60,8 @@ class TicketController extends Controller
     {
         $ticket = DB::table('trx_ticket')
             ->join('users', 'users.chatid', '=', 'trx_ticket.chatid')
-            ->where('trx_ticket.ticketid', $id)
+            ->join('alertgroup', 'alertgroup.chatid', '=', 'trx_ticket.chatid')
+            ->where('trx_ticket.id', $id)
             ->first();
 
         return view('each-ticket', compact('ticket'));
