@@ -10,5 +10,5 @@ class TrxTicket extends Model
     use HasFactory;
 
     protected $table = "trx_ticket";
-    protected $fillable = ['alertid', 'chatid', 'title', 'tickettype'];
+    protected $fillable = ['alertid', 'chatid', 'title', 'tickettype','source','description','outletcode','outletreported','product','application','module','submodule','casetype'];
 }

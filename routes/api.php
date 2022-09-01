@@ -36,8 +36,6 @@ Route::get('/alertgroup', function() {
 
 Route::put('/alertgroup', function() {
 
-    error_log(request());
-
     $result = AlertGroup::create([
         'alertid' => request('alertid'),
         'nodename' => request('nodename'),
@@ -51,11 +49,21 @@ Route::put('/alertgroup', function() {
         'chatid' => request('chatid')
     ]);
     
-    if(request('status') == 2){
-        error_log('masukkk');
+    $status = DB::table('status')
+    ->where('id', '=', request('status'))
+    ->where('iscreated', '=', 1)
+    ->get();
+
+    if(count($status) > 0){
         TrxTicket::create([
             'alertid' => request('alertid'),
             'chatid' => request('chatid'),
+            'source' => 'AutoTicket',
+            'description' => request('alertmessage'),
+            'outletcode' => 000,
+            'outletreported' => 'Head Office',
+            'module' => 'Hardware',
+            'submodule' => 'Hardware',
             'title' => 'Server Down',
             'tickettype' => 'Incident'
         ]);
