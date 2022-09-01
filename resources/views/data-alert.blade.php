@@ -24,7 +24,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
+                    <table class="table table-striped" id="myTable">
                         <thead>
                             <tr>
                                 <th>Alert ID</th>
@@ -48,7 +48,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $list_alert->links() }}
                 </div>
             </div>
         </section>
@@ -56,7 +55,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
+                    <table class="table table-striped" id="myTable">
                         <thead>
                             <tr>
                                 <th>Alert ID</th>
@@ -82,7 +81,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $list_alert->links() }}
                 </div>
             </div>
         </section>
@@ -90,11 +88,4 @@
     </div>
 
 </div>
-
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
-<script>
-    // Simple Datatable
-    let table1 = document.querySelector('#table1');
-    let dataTable = new simpleDatatables.DataTable(table1);
-</script>
 @endsection

@@ -19,7 +19,7 @@ class AlertController extends Controller
             ->select('alertgroup.*', 'users.name', 'status.description')
             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
             ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-            ->paginate(5);
+            ->get();
 
         return view('data-alert', compact('list_alert'));
     }

@@ -22,7 +22,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="example" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="myTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th class="col-auto">Ticket ID</th>
@@ -51,7 +51,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $trx_tickets->links() }}
             </div>
         </div>
     </div>
@@ -63,7 +62,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-striped" id="myTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th class="col-auto">Ticket ID</th>
@@ -94,17 +93,9 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $trx_tickets->links() }}
             </div>
         </div>
     </div>
     @endhasrole
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#example').DataTable();
-    });
-</script>
-
 @endsection

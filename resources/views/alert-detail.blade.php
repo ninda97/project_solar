@@ -23,7 +23,7 @@
         </div>
         <div class="card-body">
             <div class="card table-responsive">
-                <table class="table table-striped" id="table1">
+                <table class="table table-striped" id="myTable">
                     <thead>
                         <tr>
                             <th class="col-auto">NO</th>
@@ -62,7 +62,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $list_alertgroup->links() }}
             </div>
         </div>
     </section>
@@ -73,7 +72,7 @@
                 My Alerts
             </div>
             <div class="card-body">
-                <table class="table table-striped" id="table1">
+                <table class="table table-striped" id="myTable">
                     <thead>
                         <tr>
                             <th class="col-auto">Alert ID</th>
@@ -107,7 +106,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $list_alertgroup->links() }}
             </div>
         </div>
     </section>
