@@ -24,47 +24,88 @@
         <div class="card-body">
             <div class="form-group row">
 
-                {{-- Alert ID --}}
-                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                    <label>Alert ID</label>
-                    <input type="text" class="form-control" id="ticketid" name="ticketid" value="{{ $ticket->alertid }}" disabled>
+                <div class="col-sm-4 mb-3 mt-3 mb-sm-0">
+                    <label>Ticket ID</label>
+                    <input type="text" class="form-control" id="ticketid" name="ticketid" value="{{ $ticket->id }}" disabled>
                 </div>
 
-                {{-- name --}}
-                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                    <label>Name</label>
+                <div class="col-sm-4 mb-3 mt-3 mb-sm-0">
+                    <label>PIC</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $ticket->name }}" disabled>
                 </div>
 
-                {{-- chatid --}}
-                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                    <label>Node Name</label>
-                    <input type="text" class="form-control" id="chatid" name="chatid" value="{{ $ticket->chatid }}" disabled>
-                </div>
-
-                {{-- title --}}
-                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                    <label>Node IP Address</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ $ticket->title }}" disabled>
-                </div>
-
-                {{-- tickettype --}}
-                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                    <label>CPU Load</label>
-                    <input type="text" class="form-control" id="tickettype" name="tickettype" value="{{ $ticket->tickettype }}" disabled>
-                </div>
-
-                {{-- created_at --}}
-                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                <div class="col-sm-4 mb-3 mt-3 mb-sm-0">
                     <label>Created At</label>
                     <input type="text" class="form-control" id="created_at" name="created_at" value="{{$ticket->created_at}}" disabled>
                 </div>
 
-            </div>
-        </div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Node Name</label>
+                    <input type="text" class="form-control" id="chatid" name="chatid" value="{{ $ticket->nodename }}" disabled>
+                </div>
 
-        <div class="card-footer">
-            <a class="btn btn-primary float-right mr-3 mb-3" href="{{ route('trx_ticket.index') }}">Done</a>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Node IP Address</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ $ticket->nodeipaddress }}" disabled>
+                </div>
+
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>CPU Load</label>
+                    <input type="text" class="form-control" id="tickettype" name="tickettype" value="{{ $ticket->cpuload }}%" disabled>
+                </div>
+
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Memory Used</label>
+                    <input type="text" class="form-control" id="tickettype" name="tickettype" value="{{ $ticket->memoryused }}%" disabled>
+                </div>
+
+                <hr style="width:100%;text-align:left;margin-left:0">
+
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Source</label>
+                    <input type="text" class="form-control" value="{{ $ticket->source }}" disabled>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Perihal</label>
+                    <input type="text" class="form-control" value="{{ $ticket->title }}" disabled>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Description</label>
+                    <textarea class="form-control" disabled>{{$ticket->description}}</textarea>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Kode Outlet</label>
+                    <select class="form-control" disabled>
+                        <option value="{{$ticket->outletcode}}">{{$ticket->outletcode}}
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Outlet Reported</label>
+                    <select class="form-control" disabled>
+                        <option value="{{$ticket->outletreported}}">{{$ticket->outletreported}}
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Module</label>
+                    <select class="form-control" disabled>
+                        <option value="{{$ticket->outletreported}}">{{$ticket->module}}
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+                <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    <label>Sub Module</label>
+                    <select class="form-control" disabled>
+                        <option value="{{$ticket->outletreported}}">{{$ticket->submodule}}
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
+
+            </div>
         </div>
     </div>
 
