@@ -59,8 +59,6 @@ class TicketController extends Controller
     public function show($id)
     {
         $ticket = DB::table('trx_ticket')
-            ->join('users', 'users.chatid', '=', 'trx_ticket.chatid')
-            ->where('trx_ticket.ticketid', $id)
             ->join('alertgroup', 'alertgroup.chatid', '=', 'trx_ticket.chatid')
             ->where('trx_ticket.id', $id)
             ->first();
