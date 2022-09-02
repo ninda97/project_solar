@@ -48,16 +48,20 @@ Route::put('/alertgroup', function() {
         'alertmessage' => request('alertmessage'),
         'chatid' => request('chatid')
     ]);
+
+    $ticket = DB::table('trx_ticket')
+    ->where('alertid', '=', request('alertid'))
+    ->get();
     
     $status = DB::table('status')
     ->where('id', '=', request('status'))
     ->where('iscreated', '=', 1)
     ->get();
 
-    if(count($status) > 0){
+    if(count($status) > 0 && count($ticket) == 0){
         TrxTicket::create([
             'alertid' => request('alertid'),
-            'chatid' => request('chatid'),
+            'chatid' => null,
             'source' => 'AutoTicket',
             'description' => request('alertmessage'),
             'outletcode' => 000,
