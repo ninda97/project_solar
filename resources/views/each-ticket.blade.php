@@ -93,14 +93,14 @@
                 <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                     <label>Module</label>
                     <select class="form-control" disabled>
-                        <option value="{{$ticket->outletreported}}">{{$ticket->module}}
+                        <option value="{{$ticket->module}}">{{$ticket->module}}
                     </select>
                 </div>
                 <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
                 <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                     <label>Sub Module</label>
                     <select class="form-control" disabled>
-                        <option value="{{$ticket->outletreported}}">{{$ticket->submodule}}
+                        <option value="{{$ticket->submodule}}">{{$ticket->submodule}}
                     </select>
                 </div>
                 <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>

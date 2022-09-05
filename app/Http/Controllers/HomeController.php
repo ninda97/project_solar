@@ -28,7 +28,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $result = DB::table('alertgroup')
+        ->select(DB::raw('count(alertgroupid) as totalalert'), 
+        DB::raw('count(case when status = 3 then 1 else null end) as totalwarning'), 
+        DB::raw('count(case when status = 2 then 1 else null end) as totaldown'), 
+        DB::raw('count(case when status = 13 then 1 else null end) as totalcritical'),
+        DB::raw('count(distinct(trx_ticket.id)) as totalticket'))
+        ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
+        ->get();
+
+        return view('home', compact('result'));
     }
 
     /**
