@@ -4,8 +4,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,9 +22,6 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/h', function () {
-    return view('welcome1', ['users' => User::get(),]);
-});
 
 // Profile Routes
 Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
@@ -44,6 +39,13 @@ Route::resource('alertgroup', AlertGroupController::class);
 
 //Ticket
 Route::resource('trx_ticket', TicketController::class);
+// Route::post('/update', [TicketController::class, 'update'])->name('update');
+// Route::prefix('trx_ticket')->name('trx_ticket.')->group(function () {
+//     Route::get('/', [TicketController::class, 'index'])->name('index');
+//     Route::get('/show', [TicketController::class, 'show'])->name('show');
+// });
+// Route::put('/update/{id}', [TicketController::class, 'update'])->name('update');
+
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');

@@ -23,9 +23,11 @@ class TicketController extends Controller
             ->orderBy('trx_ticket.created_at')
             ->get();
         // ->paginate(1);
+        $users = User::all();
 
         return view('ticket', [
-            'trx_tickets' => $return
+            'trx_tickets' => $return,
+            'users'  => $users
         ]);
     }
 
@@ -63,8 +65,11 @@ class TicketController extends Controller
             ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
             ->where('trx_ticket.id', $id)
             ->first();
+        $users = User::all();
 
-        return view('each-ticket', compact('ticket'));
+        return view('each-ticket', [
+            'ticket' => $ticket, 'users'  => $users
+        ]);
     }
 
 
@@ -74,9 +79,26 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TrxTicket $ticket)
     {
-        //
+        return view('each-ticket', [
+            'ticket' => $ticket
+        ]);
+        // DB::beginTransaction();
+        // try {
+        //     // Delete User from list
+
+        //     $user_chatid = User::where('name'->$name)->first();
+        //     $ticket_edit = User::whereId($id->id)->update([
+        //         'name'    => $name->name
+        //     ]);
+
+        //     DB::commit();
+        //     return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
+        // } catch (\Throwable $th) {
+        //     DB::rollBack();
+        //     return redirect()->back()->with('error', $th->getMessage());
+        // }
     }
 
     /**
@@ -88,7 +110,13 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $user_chatid = User::where('name', $request->username)->pluck('chatid');
+        // Store Data
+        $ticket_updated = TrxTicket::whereId($id)->update([
+            'chatid' => $user_chatid
+        ]);
+        return redirect()->route('trx_ticket.index');
     }
 
     /**

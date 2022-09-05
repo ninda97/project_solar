@@ -39,7 +39,16 @@
                         <tr>
                             <td>{{$ticket->id}}</td>
                             <td>{{$ticket->alertid}}</td>
-                            <td>{{$ticket->name}}</td>
+                            <td>
+                                @if(is_null($ticket->name))
+                                <p style="color:red ;">PIC Is Not Assign</p>
+                                <!-- <a class="btn btn-warning m-2" href="#" data-toggle="modal" data-target="#assignModal{{$ticket->id}}">Assign Now
+                                </a> -->
+                                @else
+                                {{ $ticket->name }}
+                                @endif
+                            </td>
+                            <!-- <td>{{$ticket->name}}</td> -->
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
@@ -84,7 +93,7 @@
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
-                            <td><a href="{{ route('trx_ticket.show', [$ticket->id]) }}" class="btn btn-primary m-2">
+                            <td><a href="{{ route('trx_ticket.show', ['id' => $ticket->id]) }}" class="btn btn-primary m-2">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
                             </td>
