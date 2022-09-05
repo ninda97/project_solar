@@ -17,13 +17,14 @@
 
     @hasrole('Admin')
     <!-- DataTales Example -->
-    <section class="section">
-        <div class="card-header">
-            All Alerts
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Data Alert Telegram</h6>
         </div>
-        <div class="card-body">
-            <div class="card table-responsive">
-                <table class="table table-striped" id="myTable">
+        <section class="section">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped" id="myTable">
                     <thead>
                         <tr>
                             <th class="col-auto">NO</th>
@@ -110,7 +111,7 @@
         </div>
     </section>
     @endhasrole
-
+</div>
 </div>
 
 @endsection
