@@ -20,7 +20,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Ticket Detail</h6>
         </div>
-        <form method="POST" action="{{ route('trx_ticket.update', [$ticket->id]) }}">
+        <form method="POST" action="{{ route('trx_ticket.update', ['ticket' => $ticket->id]) }}">
             @csrf
             @method('PUT')
             <div class="card-body">
@@ -116,9 +116,9 @@
                     <div class="col-sm-3 mb-3 mt-3 mb-sm-0"></div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-body">
                 @if(is_null($ticket->name))
-                <button type="submit" class="btn btn-warning float-right mb-3">Update</button>
+                <button type="submit" class="btn btn-success float-right mb-3">Update</button>
                 @endif
             </div>
         </form>
