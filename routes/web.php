@@ -38,13 +38,13 @@ Route::resource('alertgroup', AlertGroupController::class);
 // Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
 //Ticket
-Route::resource('trx_ticket', TicketController::class);
+// Route::resource('trx_ticket', TicketController::class);
 // Route::post('/update', [TicketController::class, 'update'])->name('update');
-// Route::prefix('trx_ticket')->name('trx_ticket.')->group(function () {
-//     Route::get('/', [TicketController::class, 'index'])->name('index');
-//     Route::get('/show', [TicketController::class, 'show'])->name('show');
-// });
-// Route::put('/update/{id}', [TicketController::class, 'update'])->name('update');
+Route::middleware('auth')->prefix('trx_ticket')->name('trx_ticket.')->group(function () {
+    Route::get('/', [App\Http\Controllers\TicketController::class, 'index'])->name('index');
+    Route::get('/show/{ticket}', [App\Http\Controllers\TicketController::class, 'show'])->name('show');
+    Route::put('/update', [App\Http\Controllers\TicketController::class, 'update'])->name('update');
+});
 
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function () {

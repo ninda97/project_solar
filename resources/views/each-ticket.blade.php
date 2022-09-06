@@ -20,7 +20,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Ticket Detail</h6>
         </div>
-        <form method="POST" action="#">
+        <form method="POST" action="{{ route('trx_ticket.update', [$ticket->id]) }}">
             @csrf
             @method('PUT')
             <div class="card-body">

@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:user-list|user-edit', ['only' => ['index']]);
+        // $this->middleware('permission:user-edit', ['only' => ['edit', 'update', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -116,7 +123,7 @@ class TicketController extends Controller
         $ticket_updated = TrxTicket::whereId($id)->update([
             'chatid' => $user_chatid
         ]);
-        return redirect()->route('trx_ticket.index');
+        return redirect()->route('ticket');
     }
 
     /**
