@@ -68,16 +68,16 @@
                         </thead>
                         <tbody>
                             @foreach($list_alert as $result)
+                            @if($result->chatid == auth()->user()->chatid)
                             <tr>
-                                @if($result->chatid == auth()->user()->chatid)
                                 <td>{{ $result->alertid }}</td>
                                 <td>{{ $result->nodename }}</td>
                                 <td>{{ $result->nodeipaddress }}</td>
                                 <td>{{ $result->alertmessage }}</td>
                                 <td>{{ $result->name }}</td>
                                 <td>{{ $result->created_at }}</td>
-                                @endif
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
