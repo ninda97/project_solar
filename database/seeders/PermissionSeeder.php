@@ -16,23 +16,22 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [
+        $permissions_admin = [
             'user-list',
             'user-create',
             'user-edit',
             'user-delete',
-            'role-create',
-            'role-edit',
-            'role-list',
-            'role-delete',
-            'permission-list',
-            'permission-create',
-            'permission-edit',
-            'permission-delete',
-            'sees-own-alert'
+            'ticket-list',
+            'ticket-show',
+            'ticket-update'
         ];
 
-        foreach ($permissions as $permission) {
+        $permissions_user = [
+            'ticket-list',
+            'ticket-show'
+        ];
+
+        foreach ($permissions_admin as $permission) {
             Permission::create([
                 'name' => $permission
             ]);
@@ -51,7 +50,8 @@ class PermissionSeeder extends Seeder
 
         //Give Role Staff Permission
         $staff_role = Role::whereId(2)->first();
-        $staff_role->givePermissionTo('sees-own-alert');
+        $staff_role->givePermissionTo('ticket-list');
+        $staff_role->givePermissionTo('ticket-show');
 
         //Give Permission to staff role
         $staff_permission = User::where('role_id', 2)->first();

@@ -12,8 +12,9 @@ class TicketController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:user-list|user-edit', ['only' => ['index']]);
-        // $this->middleware('permission:user-edit', ['only' => ['edit', 'update', 'show']]);
+        $this->middleware('permission:ticket-list', ['only' => ['index']]);
+        $this->middleware('permission:ticket-show', ['only' => ['show']]);
+        $this->middleware('permission:ticket-update', ['only' => ['update']]);
     }
 
     /**

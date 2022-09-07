@@ -40,15 +40,45 @@
                             <td>{{$ticket->id}}</td>
                             <td>{{$ticket->alertid}}</td>
                             <td>
-                                @if(is_null($ticket->name))
-                                <p style="color:red ;">PIC Is Not Assign</p>
-                                <!-- <a class="btn btn-warning m-2" href="#" data-toggle="modal" data-target="#assignModal{{$ticket->id}}">Assign Now
-                                </a> -->
+                                {{$ticket->alertid}}
+                                <!-- @if(is_null($ticket->name))
+                                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#assignModal{{$ticket->id}}">Assign Now
+                                </a>
+                                <div class="modal fade" id="assignModal{{$ticket->id}}" tabindex="-1" role="dialog" aria-hidden=" true">
+                                    <div class="modal-dialog" role="document">
+                                        <form id="pic-assign-form" method="POST" action="{{ route('trx_ticket.update', ['ticket' => $ticket->id]) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="assignModalExample">Assign PIC for this Incident!</h5>
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">Select A PIC Below!.
+
+                                                    <select class="form-control" name="username" id="username">
+                                                        <option selected disabled>Select PIC</option>
+                                                        @foreach ($users as $user)
+                                                        <option value="{{$user->name}}">{{$user->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-success">
+                                                        Assign
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                                 @else
                                 {{ $ticket->name }}
-                                @endif
+                                @endif -->
                             </td>
-                            <!-- <td>{{$ticket->name}}</td> -->
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
@@ -89,16 +119,7 @@
                         <tr>
                             <td>{{$ticket->id}}</td>
                             <td>{{$ticket->alertid}}</td>
-                            <td>
-                                @if(is_null($ticket->name))
-                                <p style="color:red ;">PIC Is Not Assign</p>
-                                <!-- <a class="btn btn-warning m-2" href="#" data-toggle="modal" data-target="#assignModal{{$ticket->id}}">Assign Now
-                                </a> -->
-                                @else
-                                {{ $ticket->name }}
-                                @endif
-                            </td>
-                            <!-- <td>{{$ticket->name}}</td> -->
+                            <td>{{$ticket->name}}</td>
                             <td>{{$ticket->title}}</td>
                             <td>{{$ticket->tickettype}}</td>
                             <td>{{$ticket->created_at}}</td>
