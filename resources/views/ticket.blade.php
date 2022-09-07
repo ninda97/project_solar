@@ -40,7 +40,7 @@
                             <td>{{$ticket->id}}</td>
                             <td>{{$ticket->alertid}}</td>
                             <td>
-                                {{$ticket->alertid}}
+                                {{$ticket->name}}
                                 <!-- @if(is_null($ticket->name))
                                 <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#assignModal{{$ticket->id}}">Assign Now
                                 </a>
