@@ -61,7 +61,7 @@ Route::put('/alertgroup', function() {
     if(count($status) > 0 && count($ticket) == 0){
         TrxTicket::create([
             'alertid' => request('alertid'),
-            'chatid' => null,
+            'chatid' => request('chatid'),
             'source' => 'AutoTicket',
             'description' => request('alertmessage'),
             'outletcode' => 000,
