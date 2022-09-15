@@ -8,6 +8,8 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use App\Models\AlertGroup;
+
 
 class HomeController extends Controller
 {
@@ -28,16 +30,65 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $result = DB::table('alertgroup')
-        ->select(DB::raw('count(alertgroupid) as totalalert'), 
-        DB::raw('count(case when status = 3 then 1 else null end) as totalwarning'), 
-        DB::raw('count(case when status = 2 then 1 else null end) as totaldown'), 
-        DB::raw('count(case when status = 13 then 1 else null end) as totalcritical'),
-        DB::raw('count(distinct(trx_ticket.id)) as totalticket'))
-        ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
-        ->get();
 
-        return view('home', compact('result'));
+        $labels =  DB::table('alertgroup')
+            ->select('status', 'description')
+            ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+            ->groupBy('alertgroup.status', 'status.description')
+            ->get();
+
+        $result = DB::table('alertgroup')
+            ->select(
+                DB::raw('count(alertgroupid) as totalalert'),
+                DB::raw('count(case when status = 3 then 1 else null end) as totalwarning'),
+                DB::raw('count(case when status = 2 then 1 else null end) as totaldown'),
+                DB::raw('count(case when status = 13 then 1 else null end) as totalcritical'),
+                DB::raw('count(distinct(trx_ticket.id)) as totalticket')
+            )
+            ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
+            ->get();
+
+        $chart = DB::table('alertgroup')
+            ->select(
+                DB::raw('count(alertgroupid) as totalalert'),
+                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
+                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+
+            )
+            ->groupBy('status',)
+            ->get();
+
+        $months = DB::table('alertgroup')
+            ->select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
+            ->groupBy('month_name')
+            ->orderBy('created_at')
+            ->get();
+
+        error_log($months);
+
+        $label = [];
+        $data = [];
+        $month = [];
+        $label_month = [];
+
+        foreach ($months as $row) {
+            $label_month[] = $row->month_name;
+            $month[] = $row->count;
+        }
+
+        foreach ($labels as $row) {
+            $label[] = $row->description;
+        }
+        foreach ($chart as $row) {
+            $data[] = $row->totalalert;
+        }
+
+        // $data['chart_data'] = json_encode($data);
+        // $data['l'] = json_encode($label);
+
+        // return view('home', compact('result'), $data, $label);
+        return view('home', ['result' => $result, 'data' => $data, 'label' => $label, 'label_month' => $label_month, 'month' => $month]);
     }
 
     /**
