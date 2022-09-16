@@ -24,6 +24,20 @@
         <section class="section">
             <div class="card">
                 <div class="card-body">
+                <br>
+                    <div class="row input-daterange">
+                        <div class="col-md-2">
+                            <input type="text" name="from_date" id="from_date" class="form-control" placeholder="Start Date" readonly />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="to_date" id="to_date" class="form-control" placeholder="End Date" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                            <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+                        </div>
+                    </div>
+                <br />
                     <table class="table table-striped" id="myTable">
                         <thead>
                             <tr>
