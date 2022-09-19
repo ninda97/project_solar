@@ -167,18 +167,18 @@
                         <!-- <div class="chart-container row" style="position: relative; height:40vh; width:80vw">
                             <canvas id="myChart"></canvas>
                         </div> -->
-                        <div class="card">
+                        <div class="col-xl-12 col-md-6 mb-12">
                             <div class="card-header">
                                 <i class="fa fa-area-chart"></i> Alert by Month
                             </div>
                             <div class="card-body">
-                                <canvas id="lineChart" height="300" width="1200"></canvas>
+                                <canvas id="lineChart" height="50"></canvas>
                             </div>
                             <!-- <div class="card-footer small text-muted">Updated yesterday at @php echo date('F j, Y', time() ) @endphp</div> -->
                         </div>
                     </div>
                     </br>
-                    <div class="row d-flex justify-content-between">
+                    <div class="row">
                         <div class="card">
                             <div class="card-header">
                                 <i class="fa fa-chart-pie"></i> Alert Ratio
@@ -187,12 +187,12 @@
                                 <canvas id="pieChart" width="400" height="400"></canvas>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="col-xl-9 col-md-6 mb-9">
                             <div class="card-header">
                                 <i class="fa fa-chart-bar"></i> Alert Ratio
                             </div>
                             <div class="card-body">
-                                <canvas id="barChart" width="400" height="400"></canvas>
+                                <canvas id="barChart" height="70"></canvas>
                             </div>
                             <!-- <div class="card-footer small text-muted">Updated yesterday at @php echo date('F j, Y', time() ) @endphp</div> -->
                         </div>
