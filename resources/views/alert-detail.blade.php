@@ -24,7 +24,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-body">
-                <br>
+                    <br>
                     <div class="row input-daterange">
                         <div class="col-md-2">
                             <input type="text" name="from_date" id="from_date" class="form-control" placeholder="Start Date" readonly />
@@ -37,7 +37,7 @@
                             <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
                         </div>
                     </div>
-                <br />
+                    <br />
                     <table class="table table-striped" id="myTable">
                         <thead>
                             <tr>
@@ -84,7 +84,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-striped" id="myTable">
+                    <table class="table table-striped" id="alertTable">
                         <thead>
                             <tr>
                                 <th class="col-auto">NO</th>

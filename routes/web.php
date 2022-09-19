@@ -35,7 +35,7 @@ Route::resource('alert', AlertController::class);
 Route::resource('alertgroup', AlertGroupController::class);
 
 // Permissions
-Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
+Route::get('/chart', [App\Http\Controllers\ChartController::class, 'index'])->name('chart');
 
 //Ticket
 Route::middleware('auth')->prefix('trx_ticket')->name('trx_ticket.')->group(function () {

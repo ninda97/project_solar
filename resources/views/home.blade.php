@@ -2,8 +2,38 @@
 <html lang="en">
 
 {{-- Include Head --}}
-@include('common.head')
-@section('title', 'Dashboard')
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('name', 'Alert') }} | Dashboard</title>
+
+    {{-- ICON --}}
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/btn.jpg') }}" />
+
+    <!-- Font Awesome UI KIT-->
+    <script src="https://kit.fontawesome.com/f75ab26951.js" crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+
+
+</head>
 
 <body id="page-top">
 
@@ -142,25 +172,32 @@
                                 <i class="fa fa-area-chart"></i> Alert by Month
                             </div>
                             <div class="card-body">
-                                <canvas id="myChart" height="300px" width="1200"></canvas>
+                                <canvas id="lineChart" height="300" width="1200"></canvas>
                             </div>
                             <!-- <div class="card-footer small text-muted">Updated yesterday at @php echo date('F j, Y', time() ) @endphp</div> -->
                         </div>
                     </div>
-                    <div class="row">
-                        <!-- <div class="chart-container row" style="position: relative; height:40vh; width:80vw">
-                            <canvas id="myChart"></canvas>
-                        </div> -->
+                    </br>
+                    <div class="row d-flex justify-content-between">
                         <div class="card">
                             <div class="card-header">
                                 <i class="fa fa-chart-pie"></i> Alert Ratio
                             </div>
                             <div class="card-body">
-                                <canvas id="pieChart"></canvas>
+                                <canvas id="pieChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fa fa-chart-bar"></i> Alert Ratio
+                            </div>
+                            <div class="card-body">
+                                <canvas id="barChart" width="400" height="400"></canvas>
                             </div>
                             <!-- <div class="card-footer small text-muted">Updated yesterday at @php echo date('F j, Y', time() ) @endphp</div> -->
                         </div>
                     </div>
+
                     <br>
                 </div>
                 <!-- /.container-fluid -->
@@ -197,6 +234,7 @@
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <script>
         var da = <?php echo json_encode($label); ?>;
@@ -241,6 +279,45 @@
         );
     </script>
 
+
+
+    <script>
+        var barlabel = <?php echo json_encode($barlabel); ?>;
+        var bardata = <?php echo json_encode($bardata); ?>;
+        const databar = {
+            labels: barlabel,
+            datasets: [{
+                label: "Waning",
+                backgroundColor: 'rgba(255, 178, 102, 0.7)',
+                data: [bardata[0][0], bardata[1][0], bardata[2][0]],
+            }, {
+                label: "Critical",
+                backgroundColor: 'rgba(255, 0, 0, 0.6)',
+                data: [bardata[0][1], bardata[1][1], bardata[2][1]]
+            }, {
+                label: "Down",
+                backgroundColor: 'rgba(102,0,0, 0.7)',
+                data: [bardata[0][2], bardata[1][2], bardata[2][2]]
+            }]
+        };
+
+        const configbar = {
+            type: 'bar',
+            data: databar,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+        const barChart = new Chart(
+            document.getElementById('barChart'),
+            configbar
+        );
+    </script>
+
     <script>
         var labels = <?php echo json_encode($label_month); ?>;
         var dats = <?php echo json_encode($month); ?>;
@@ -256,7 +333,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                label: 'Total Alert By Month',
+                label: 'Total Alert',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: dats,
@@ -269,7 +346,7 @@
             options: {}
         };
         const myChart = new Chart(
-            document.getElementById('myChart'),
+            document.getElementById('lineChart'),
             config
         );
     </script>

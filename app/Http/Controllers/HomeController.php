@@ -30,13 +30,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $labels =  DB::table('alertgroup')
-            ->select('status', 'description')
-            ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
-            ->groupBy('alertgroup.status', 'status.description')
-            ->get();
-
         $result = DB::table('alertgroup')
             ->select(
                 DB::raw('count(alertgroupid) as totalalert'),
@@ -48,6 +41,12 @@ class HomeController extends Controller
             ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
             ->get();
 
+        $labels =  DB::table('alertgroup')
+            ->select('status', 'description')
+            ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+            ->groupBy('alertgroup.status', 'status.description')
+            ->get();
+
         $chart = DB::table('alertgroup')
             ->select(
                 DB::raw('count(alertgroupid) as totalalert'),
@@ -56,7 +55,7 @@ class HomeController extends Controller
                 DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
 
             )
-            ->groupBy('status',)
+            ->groupBy('status')
             ->get();
 
         $months = DB::table('alertgroup')
@@ -65,12 +64,29 @@ class HomeController extends Controller
             ->orderBy('created_at')
             ->get();
 
-        error_log($months);
 
+        $bdata = DB::table('alertgroup')
+            ->select(
+                'location',
+                DB::raw('count(alertgroupid) as totalalert'),
+                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
+                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+            )
+            ->groupBy('location')
+            ->get();
+
+        $barlabel = [];
+        $bardata = [];
         $label = [];
         $data = [];
         $month = [];
         $label_month = [];
+
+        foreach ($bdata as $row) {
+            $barlabel[] = $row->location;
+            $bardata[] = [$row->totwarn, $row->totcrit, $row->totdown];
+        }
 
         foreach ($months as $row) {
             $label_month[] = $row->month_name;
@@ -88,7 +104,7 @@ class HomeController extends Controller
         // $data['l'] = json_encode($label);
 
         // return view('home', compact('result'), $data, $label);
-        return view('home', ['result' => $result, 'data' => $data, 'label' => $label, 'label_month' => $label_month, 'month' => $month]);
+        return view('home', ['result' => $result, 'data' => $data, 'label' => $label, 'label_month' => $label_month, 'month' => $month, 'bardata' => $bardata, 'barlabel' => $barlabel]);
     }
 
     /**

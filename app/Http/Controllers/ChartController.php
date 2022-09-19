@@ -2,43 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\AlertGroup;
-use App\Models\Alert;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Pagination\Paginator;
 
-class AlertGroupController extends Controller
+class ChartController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $list_alertgroup = DB::table('alertgroup')
-            ->select('alertgroup.*', 'users.name', 'status.description')
-            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+
+        $bdata = DB::table('alertgroup')
+            ->select(
+                'location',
+                DB::raw('count(alertgroupid) as totalalert'),
+                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
+                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+            )
+            ->groupBy('location')
             ->get();
 
-        if (request()->ajax()) {
-            if (!empty($request->from_date)) {
-                $data = DB::table('tbl_order')
-                    ->whereBetween('created_at', array($request->from_date, $request->to_date))
-                    ->get();
-            } else {
-                $data = DB::table('tbl_order')
-                    ->get();
-            }
-            return datatables()->of($data)->make(true);
+        $barlabel = [];
+        $bardata = [];
+
+        foreach ($bdata as $row) {
+            $barlabel[] = $row->location;
+            $bardata[] = [$row->totwarn, $row->totcrit, $row->totdown];
         }
 
-        return view('alert-detail', [
-            'list_alertgroup' => $list_alertgroup
-        ]);
-        error_log($request);
+        return view('chart', ['bardata' => $bardata, 'barlabel' => $barlabel]);
+
+        // dd($bardata);
     }
 
     /**
@@ -70,14 +69,7 @@ class AlertGroupController extends Controller
      */
     public function show($id)
     {
-        $alert = DB::table('alertgroup')
-            ->select('alertgroup.*', 'users.name', 'status.description')
-            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-            ->where('alertgroupid', $id)
-            ->first();
-
-        return view('each-alert', compact('alert'));
+        //
     }
 
     /**
