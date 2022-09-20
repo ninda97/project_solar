@@ -181,7 +181,7 @@
                     <div class="row d-flex justify-content-between">
                         <div class="card">
                             <div class="card-header">
-                                <i class="fa fa-chart-pie"></i> Alert Ratio
+                                <i class="fa fa-chart-pie"></i> Alert Ratio by Status
                             </div>
                             <div class="card-body">
                                 <canvas id="pieChart" width="400" height="400"></canvas>
@@ -189,7 +189,7 @@
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <i class="fa fa-chart-bar"></i> Alert Ratio
+                                <i class="fa fa-chart-bar"></i> Alert Ratio by Location
                             </div>
                             <div class="card-body">
                                 <canvas id="barChart" width="400" height="400"></canvas>
