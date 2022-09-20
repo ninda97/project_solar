@@ -16,28 +16,26 @@ class ChartController extends Controller
     public function index()
     {
 
-        $bdata = DB::table('alertgroup')
-            ->select(
-                'location',
-                DB::raw('count(alertgroupid) as totalalert'),
-                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
-                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
-                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
-            )
-            ->groupBy('location')
+
+        $udata = DB::table('alertgroup')
+            ->select(DB::raw('count(alertgroupid) as totalalert'), 'users.name as picname')
+            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+            ->whereNotNull('users.chatid')
+
+            ->groupBy('alertgroup.chatid', 'users.name')
             ->get();
 
-        $barlabel = [];
-        $bardata = [];
+        $datapic = [];
+        $pic = [];
 
-        foreach ($bdata as $row) {
-            $barlabel[] = $row->location;
-            $bardata[] = [$row->totwarn, $row->totcrit, $row->totdown];
+        foreach ($udata as $row) {
+            $datapic[] = $row->totalalert;
+            $pic[] = $row->picname;
         }
 
-        return view('chart', ['bardata' => $bardata, 'barlabel' => $barlabel]);
+        return view('chart', ['datapic' => $datapic, 'pic' => $pic]);
 
-        // dd($bardata);
+        dd($datapic);
     }
 
     /**

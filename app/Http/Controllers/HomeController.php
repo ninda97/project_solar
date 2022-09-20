@@ -76,12 +76,22 @@ class HomeController extends Controller
             ->groupBy('location')
             ->get();
 
+
+        $udata = DB::table('alertgroup')
+            ->select(DB::raw('count(alertgroupid) as totalalert'), 'users.name as picname')
+            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+            ->whereNotNull('users.chatid')
+            ->groupBy('alertgroup.chatid', 'users.name')
+            ->get();
+
         $barlabel = [];
         $bardata = [];
         $label = [];
         $data = [];
         $month = [];
         $label_month = [];
+        $datapic = [];
+        $pic = [];
 
         foreach ($bdata as $row) {
             $barlabel[] = $row->location;
@@ -100,11 +110,16 @@ class HomeController extends Controller
             $data[] = $row->totalalert;
         }
 
+        foreach ($udata as $row) {
+            $datapic[] = $row->totalalert;
+            $pic[] = $row->picname;
+        }
+
         // $data['chart_data'] = json_encode($data);
         // $data['l'] = json_encode($label);
 
         // return view('home', compact('result'), $data, $label);
-        return view('home', ['result' => $result, 'data' => $data, 'label' => $label, 'label_month' => $label_month, 'month' => $month, 'bardata' => $bardata, 'barlabel' => $barlabel]);
+        return view('home', ['result' => $result, 'data' => $data, 'label' => $label, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
     }
 
     /**

@@ -167,7 +167,7 @@
                         <!-- <div class="chart-container row" style="position: relative; height:40vh; width:80vw">
                             <canvas id="myChart"></canvas>
                         </div> -->
-                        <div class="col-xl-12 col-md-6 mb-12">
+                        <div class="card col-xl-12 col-md-6 mb-12">
                             <div class="card-header">
                                 <i class="fa fa-area-chart"></i> Alert by Month
                             </div>
@@ -178,7 +178,7 @@
                         </div>
                     </div>
                     </br>
-                    <div class="row">
+                    <div class="row d-flex justify-content-between">
                         <div class="card">
                             <div class="card-header">
                                 <i class="fa fa-chart-pie"></i> Alert Ratio by Status
@@ -187,7 +187,21 @@
                                 <canvas id="pieChart" width="400" height="400"></canvas>
                             </div>
                         </div>
-                        <div class="col-xl-9 col-md-6 mb-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fa fa-chart-pie"></i> Alert Ratio by PIC
+                            </div>
+                            <div class="card-body">
+                                <canvas id="doughnutChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <!-- <div class="chart-container row" style="position: relative; height:40vh; width:80vw">
+                            <canvas id="myChart"></canvas>
+                        </div> -->
+                        <div class="card col-xl-12 col-md-6 mb-12">
                             <div class="card-header">
                                 <i class="fa fa-chart-bar"></i> Alert Ratio by Location
                             </div>
@@ -237,6 +251,40 @@
 
 
     <script>
+        var labels = <?php echo json_encode($label_month); ?>;
+        var dats = <?php echo json_encode($month); ?>;
+        // const labels = [
+        //     'January',
+        //     'February',
+        //     'March',
+        //     'April',
+        //     'May',
+        //     'June',
+        // ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Total Alert',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: dats,
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+        const myChart = new Chart(
+            document.getElementById('lineChart'),
+            config
+        );
+    </script>
+
+
+    <script>
         var da = <?php echo json_encode($label); ?>;
         var dat = <?php echo json_encode($data); ?>;
 
@@ -280,6 +328,47 @@
     </script>
 
 
+    <script>
+        var piclabel = <?php echo json_encode($pic); ?>;
+        var datapic = <?php echo json_encode($datapic); ?>;
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function poolColors(a) {
+            var pool = [];
+            for (i = 0; i < a; i++) {
+                pool.push(getRandomColor());
+            }
+            return pool;
+        }
+
+        const datadoughnut = {
+            labels: piclabel,
+            datasets: [{
+                label: 'My First Dataset',
+                data: datapic,
+                backgroundColor: poolColors(datapic.length),
+                hoverOffset: 4
+            }]
+        };
+        const configdoughnut = {
+            type: 'doughnut',
+            data: datadoughnut,
+            options: {}
+        };
+        const doughnutChart = new Chart(
+            document.getElementById('doughnutChart'),
+            configdoughnut
+        );
+    </script>
+
 
     <script>
         var barlabel = <?php echo json_encode($barlabel); ?>;
@@ -318,38 +407,6 @@
         );
     </script>
 
-    <script>
-        var labels = <?php echo json_encode($label_month); ?>;
-        var dats = <?php echo json_encode($month); ?>;
-        // const labels = [
-        //     'January',
-        //     'February',
-        //     'March',
-        //     'April',
-        //     'May',
-        //     'June',
-        // ];
-
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'Total Alert',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: dats,
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data: data,
-            options: {}
-        };
-        const myChart = new Chart(
-            document.getElementById('lineChart'),
-            config
-        );
-    </script>
 
     @yield('scripts')
 </body>

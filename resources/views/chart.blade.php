@@ -32,10 +32,10 @@
                         </div> -->
                         <div class="card">
                             <div class="card-header">
-                                <i class="fa fa-chart-bar"></i> Alert Ratio
+                                <i class="fa fa-chart-bar"></i> Alert Ratio by PIC
                             </div>
                             <div class="card-body">
-                                <canvas id="barChart" width="400" height="400"></canvas>
+                                <canvas id="doughnutChart" width="400" height="400"></canvas>
                             </div>
                             <!-- <div class="card-footer small text-muted">Updated yesterday at @php echo date('F j, Y', time() ) @endphp</div> -->
                         </div>
@@ -77,40 +77,32 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+
     <script>
-        var barlabel = <?php echo json_encode($barlabel); ?>;
-        var bardata = <?php echo json_encode($bardata); ?>;
-        const databar = {
-            labels: barlabel,
+        var piclabel = <?php echo json_encode($pic); ?>;
+        var datapic = <?php echo json_encode($datapic); ?>;
+
+        const datadoughnut = {
+            labels: piclabel,
             datasets: [{
-                label: "Waning",
-                backgroundColor: 'rgba(255, 178, 102, 0.7)',
-                data: [bardata[0][0], bardata[1][0], bardata[2][0]],
-            }, {
-                label: "Critical",
-                backgroundColor: 'rgba(255, 0, 0, 0.6)',
-                data: [bardata[0][1], bardata[1][1], bardata[2][1]]
-            }, {
-                label: "Down",
-                backgroundColor: 'rgba(102,0,0, 0.7)',
-                data: [bardata[0][2], bardata[1][2], bardata[2][2]]
+                label: 'My First Dataset',
+                data: datapic,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
             }]
         };
-
-        const configbar = {
-            type: 'bar',
-            data: databar,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+        const configdoughnut = {
+            type: 'doughnut',
+            data: datadoughnut,
+            options: {}
         };
-        const myChart = new Chart(
-            document.getElementById('barChart'),
-            configbar
+        const doughnutChart = new Chart(
+            document.getElementById('doughnutChart'),
+            configdoughnut
         );
     </script>
 
