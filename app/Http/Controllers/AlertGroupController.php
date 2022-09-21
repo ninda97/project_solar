@@ -17,27 +17,77 @@ class AlertGroupController extends Controller
      */
     public function index(Request $request)
     {
-        $list_alertgroup = DB::table('alertgroup')
-            ->select('alertgroup.*', 'users.name', 'status.description')
-            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-            ->get();
+        $users = DB::table('users')
+            ->select('chatid')
+            ->where('chatid', auth()->user()->chatid)
+            ->first();
 
         if (request()->ajax()) {
-            if (!empty($request->from_date)) {
-                $data = DB::table('tbl_order')
-                    ->whereBetween('created_at', array($request->from_date, $request->to_date))
-                    ->get();
+            if ((auth()->user()->chatid != '' || auth()->user()->chatid != null) && $users->chatid == auth()->user()->chatid) {
+
+                if (!empty($request->from_date)) {
+
+                    $data = DB::table('alertgroup')
+                        ->select('alertgroup.*', 'users.name', 'status.description as description')
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->where('users.chatid', auth()->user()->chatid)
+                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->get();
+                } else {
+                    $data = DB::table('alertgroup')
+                        ->select(
+                            'alertgroup.*',
+                            'users.name',
+                            'status.description as description'
+                        )
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->where('users.chatid', auth()->user()->chatid)
+                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->get();
+                }
             } else {
-                $data = DB::table('tbl_order')
-                    ->get();
+                if (!empty($request->from_date)) {
+                    $data = DB::table('alertgroup')
+                        ->select('alertgroup.*', 'users.name', 'status.description as description')
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->get();
+                } else {
+                    $data = DB::table('alertgroup')
+                        ->select(
+                            'alertgroup.*',
+                            'users.name',
+                            'status.description as description'
+                        )
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->get();
+                }
             }
-            return datatables()->of($data)->make(true);
+            return datatables()->of($data)
+                ->addColumn('Status', function ($data) {
+                    $button = "";
+                    if ($data->description == "Down") {
+                        $button = "<span class='badge bg-danger' style='color:white'>" . $data->description . "</span>";
+                    } else if ($data->description == "Critical") {
+                        $button = "<span class='badge bg-critical' style='color:white'>" . $data->description . "</span>";
+                    } else if ($data->description == "Warning") {
+                        $button = "<span class='badge bg-warning' style='color:white'>" . $data->description . "</span>";
+                    }
+
+                    return $button;
+                })
+                ->rawColumns(['Status'])
+                ->make(true);
         }
 
-        return view('alert-detail', [
-            'list_alertgroup' => $list_alertgroup
-        ]);
+        return view('alert-detail');
         error_log($request);
     }
 

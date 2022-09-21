@@ -6,6 +6,7 @@ use App\Models\AlertGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class ChartController extends Controller
 {
     /**
@@ -13,29 +14,65 @@ class ChartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // public function index()
+    // {
+
+    //     return view('chart');
+    // dd($datapic);
+    // }
+
+    public function index(Request $request)
     {
 
+        // if ($request->ajax()) {
+        //     return datatables()->of($list_alertgroup)->make(true);
+        // }
+        if (request()->ajax()) {
+            if (!empty($request->from_date)) {
+                $data = DB::table('alertgroup')
+                    ->select('alertgroup.*', 'users.name', 'status.description')
+                    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                    ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                    ->get();
+            } else {
+                $data = DB::table('alertgroup')
+                    ->select(
+                        'alertgroup.*',
+                        'alertgroup.alertgroupid as id',
+                        'users.name',
+                        'status.description as description',
+                        DB::raw('case when alertgroup.status = 3 then "Warning" end as warning'),
+                        DB::raw('case when alertgroup.status = 2 then "Down" end as down'),
+                        DB::raw('case when alertgroup.status = 13 then "Critical" end as critical')
+                    )
+                    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                    ->get();
+            }
+            return datatables()->of($data)
+                ->addColumn('Status', function ($data) {
+                    $button = "";
+                    if ($data->description == "Down") {
+                        $button = "<span class='badge bg-danger' style='color:white'>" . $data->description . "</span>";
+                    } else if ($data->description == "Critical") {
+                        $button = "<span class='badge bg-critical' style='color:white'>" . $data->description . "</span>";
+                    } else if ($data->description == "Warning") {
+                        $button = "<span class='badge bg-warning' style='color:white'>" . $data->description . "</span>";
+                    }
 
-        $udata = DB::table('alertgroup')
-            ->select(DB::raw('count(alertgroupid) as totalalert'), 'users.name as picname')
-            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-            ->whereNotNull('users.chatid')
-
-            ->groupBy('alertgroup.chatid', 'users.name')
-            ->get();
-
-        $datapic = [];
-        $pic = [];
-
-        foreach ($udata as $row) {
-            $datapic[] = $row->totalalert;
-            $pic[] = $row->picname;
+                    return $button;
+                })
+                ->rawColumns(['Status'])
+                ->make(true);
         }
+        return view('chart');
 
-        return view('chart', ['datapic' => $datapic, 'pic' => $pic]);
-
-        dd($datapic);
+        // dd($list_alertgroup);
+        // return view('chart');
+        // return view('chart', [
+        //     'list_alertgroup' => $list_alertgroup
+        // ]);
     }
 
     /**

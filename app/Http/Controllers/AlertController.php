@@ -15,13 +15,41 @@ class AlertController extends Controller
      */
     public function index()
     {
-        $list_alert = DB::table('alertgroup')
-            ->select('alertgroup.*', 'users.name', 'status.description')
-            ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-            ->get();
+        $users = DB::table('users')
+            ->select('chatid')
+            ->where('chatid', auth()->user()->chatid)
+            ->first();
 
-        return view('data-alert', compact('list_alert'));
+        if (request()->ajax()) {
+            if ((auth()->user()->chatid != '' || auth()->user()->chatid != null) && $users->chatid == auth()->user()->chatid) {
+
+                $data = DB::table('alertgroup')
+                    ->select(
+                        'alertgroup.*',
+                        'users.name',
+                        'status.description as description'
+                    )
+                    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                    ->where('users.chatid', auth()->user()->chatid)
+                    ->orderBy('alertgroup.alertgroupid', 'DESC')
+                    ->get();
+            } else {
+                $data = DB::table('alertgroup')
+                    ->select(
+                        'alertgroup.*',
+                        'users.name',
+                        'status.description as description'
+                    )
+                    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                    ->orderBy('alertgroup.alertgroupid', 'DESC')
+                    ->get();
+            }
+            return datatables()->of($data)->make(true);
+        }
+
+        return view('data-alert');
     }
 
     /**

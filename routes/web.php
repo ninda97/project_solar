@@ -33,9 +33,13 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function (
 // Alert
 Route::resource('alert', AlertController::class);
 Route::resource('alertgroup', AlertGroupController::class);
+// Route::get('/alertgroup', [App\Http\Controllers\AlertGroupController::class, 'index'])->name('index');
+
 
 // Permissions
-Route::get('/chart', [App\Http\Controllers\ChartController::class, 'index'])->name('chart');
+// Route::resource('chart', ChartController::class);
+Route::get('/chart', [App\Http\Controllers\ChartController::class, 'index'])->name('index');
+// Route::post('/chart/fetch_data', 'ChartController@fetch_data')->name('daterange.fetch_data');
 
 //Ticket
 Route::middleware('auth')->prefix('trx_ticket')->name('trx_ticket.')->group(function () {
