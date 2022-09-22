@@ -33,7 +33,7 @@ class AlertGroupController extends Controller
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
                         ->where('users.chatid', auth()->user()->chatid)
-                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 } else {
                     $data = DB::table('alertgroup')
@@ -45,7 +45,7 @@ class AlertGroupController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
                         ->where('users.chatid', auth()->user()->chatid)
-                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 }
             } else {
@@ -55,7 +55,7 @@ class AlertGroupController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
-                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 } else {
                     $data = DB::table('alertgroup')
@@ -66,7 +66,7 @@ class AlertGroupController extends Controller
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-                        ->orderBy('alertgroup.alertgroupid', 'DESC')
+                        ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 }
             }

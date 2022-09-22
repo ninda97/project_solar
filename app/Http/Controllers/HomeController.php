@@ -84,6 +84,16 @@ class HomeController extends Controller
             ->groupBy('status', 'chatid')
             ->get();
 
+        $chartg = DB::table('alertgroup')
+            ->select(
+                'nodegroup',
+                DB::raw('count(alertgroupid) as totalalert')
+            )
+            ->whereNotNull('nodegroup')
+            ->where('nodegroup', '!=', '')
+            ->groupBy('nodegroup')
+            ->get();
+
         $months = DB::table('alertgroup')
             ->select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
             ->groupBy('month_name')
@@ -113,7 +123,8 @@ class HomeController extends Controller
         $barlabel = [];
         $bardata = [];
         $label = [];
-        $data = [];
+        $labelg = [];
+        $datag = [];
         $datau = [];
         $month = [];
         $label_month = [];
@@ -140,6 +151,11 @@ class HomeController extends Controller
 
         foreach ($chartu as $row) {
             $datau[] = $row->totalalert;
+        }
+
+        foreach ($chartg as $row) {
+            $datag[] = $row->totalalert;
+            $labelg[] = $row->nodegroup;
         }
 
         foreach ($udata as $row) {
@@ -182,7 +198,7 @@ class HomeController extends Controller
                 'labels' => $labels
             ]);
         }
-        return view('home', ['result' => $result, 'resultu' => $resultu, 'datau' => $datau, 'label' => $label, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
+        return view('home', ['result' => $result, 'resultu' => $resultu, 'datag' => $datag, 'datau' => $datau, 'label' => $label, 'labelg' => $labelg, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
     }
 
 

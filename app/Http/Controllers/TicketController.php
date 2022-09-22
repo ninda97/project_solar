@@ -47,6 +47,7 @@ class TicketController extends Controller
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
                         ->where('users.chatid', auth()->user()->chatid)
+                        // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
                         ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 } else {
@@ -55,6 +56,7 @@ class TicketController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->where('users.chatid', auth()->user()->chatid)
+                        // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
                         ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 }
@@ -65,15 +67,16 @@ class TicketController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
-                        ->groupBy('alertgroup.alertid', 'trx_ticket.id')
+                        // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
                         ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 } else {
+                    error_log("masukkkk");
                     $data = DB::table('trx_ticket')
                         ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
-                        ->groupBy('alertgroup.alertid', 'trx_ticket.id')
+                        // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
                         ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 }

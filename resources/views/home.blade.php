@@ -209,7 +209,7 @@
                             @endhasrole
                         </div>
                     </nav>
-                    <div class="row d-flex justify-content-between">
+                    <div class="row d-flex">
                         <div class="card">
                             <div class="card-body">
                                 <div class="tab-content" id="nav-tabContent">
@@ -245,6 +245,15 @@
                             </div>
                             <div class="card-body">
                                 <canvas id="doughnutChart" width="400" height="400"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fa fa-chart-pie"></i> Alert Ratio by Group Application
+                            </div>
+                            <div class="card-body">
+                                <canvas id="polarChart" width="400" height="400"></canvas>
                             </div>
                         </div>
                     </div>
@@ -431,6 +440,49 @@
         const pieChartu = new Chart(
             document.getElementById('pieChartu'),
             configp
+        );
+    </script>
+
+    <script>
+        var lab = <?php echo json_encode($labelg); ?>;
+        var datag = <?php echo json_encode($datag); ?>;
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function poolColors(a) {
+            var pool = [];
+            for (i = 0; i < a; i++) {
+                pool.push(getRandomColor());
+            }
+            return pool;
+        }
+
+
+        const datagroup = {
+            labels: lab,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: poolColors(datag.length),
+                borderColor: 'white',
+                data: datag,
+            }]
+        };
+
+        const configgroup = {
+            type: 'polarArea',
+            data: datagroup,
+            options: {}
+        };
+        const polarChart = new Chart(
+            document.getElementById('polarChart'),
+            configgroup
         );
     </script>
 
