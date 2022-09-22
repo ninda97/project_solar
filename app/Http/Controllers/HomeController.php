@@ -30,6 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $result = DB::table('alertgroup')
             ->select(
                 DB::raw('count(alertgroupid) as totalalert'),
@@ -41,6 +42,18 @@ class HomeController extends Controller
             ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
             ->get();
 
+        $resultu = DB::table('alertgroup')
+            ->select(
+                DB::raw('count(alertgroupid) as totalalert'),
+                DB::raw('count(case when status = 3 then 1 else null end) as totalwarning'),
+                DB::raw('count(case when status = 2 then 1 else null end) as totaldown'),
+                DB::raw('count(case when status = 13 then 1 else null end) as totalcritical'),
+                DB::raw('count(distinct(trx_ticket.id)) as totalticket')
+            )
+            ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
+            ->where('trx_ticket.chatid', auth()->user()->chatid)
+            ->get();
+
         $labels =  DB::table('alertgroup')
             ->select('status', 'description')
             ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
@@ -49,13 +62,26 @@ class HomeController extends Controller
 
         $chart = DB::table('alertgroup')
             ->select(
+                'status',
+                'description as desc',
                 DB::raw('count(alertgroupid) as totalalert'),
                 DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
                 DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
                 DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+            )->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+            ->groupBy('alertgroup.status', 'status.description')
+            ->get();
 
+        $chartu = DB::table('alertgroup')
+            ->select(
+                'chatid',
+                DB::raw('count(alertgroupid) as totalalert'),
+                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
+                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
             )
-            ->groupBy('status')
+            ->where('chatid', auth()->user()->chatid)
+            ->groupBy('status', 'chatid')
             ->get();
 
         $months = DB::table('alertgroup')
@@ -88,6 +114,7 @@ class HomeController extends Controller
         $bardata = [];
         $label = [];
         $data = [];
+        $datau = [];
         $month = [];
         $label_month = [];
         $datapic = [];
@@ -106,8 +133,13 @@ class HomeController extends Controller
         foreach ($labels as $row) {
             $label[] = $row->description;
         }
-        foreach ($chart as $row) {
-            $data[] = $row->totalalert;
+
+        // foreach ($chart as $row) {
+        //     $data[] = $row->totalalert;
+        // }
+
+        foreach ($chartu as $row) {
+            $datau[] = $row->totalalert;
         }
 
         foreach ($udata as $row) {
@@ -119,8 +151,40 @@ class HomeController extends Controller
         // $data['l'] = json_encode($label);
 
         // return view('home', compact('result'), $data, $label);
-        return view('home', ['result' => $result, 'data' => $data, 'label' => $label, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
+
+        if (request()->ajax()) {
+            $labels =  DB::table('alertgroup')
+                ->select('status', 'description as desc')
+                ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                ->groupBy('alertgroup.status', 'status.description')
+                ->get();
+
+
+            $chart = DB::table('alertgroup')
+                ->select(
+                    'status',
+                    'description as desc',
+                    DB::raw('count(alertgroupid) as totalalert'),
+                    DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
+                    DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
+                    DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+                )->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                ->groupBy('alertgroup.status', 'status.description')
+                ->get();
+
+            // $items = DB::table('transaksis')
+            //             ->select(DB::raw('count(*) as jumlah, status'))
+            //             ->groupBy('status')
+            //             ->get();
+
+            return response()->json([
+                'data' => $chart,
+                'labels' => $labels
+            ]);
+        }
+        return view('home', ['result' => $result, 'resultu' => $resultu, 'datau' => $datau, 'label' => $label, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
     }
+
 
     /**
      * User Profile

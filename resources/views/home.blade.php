@@ -161,8 +161,31 @@
                                 </div>
                             </div>
                         </div>
+                        @endforeach
+
+                        @hasrole('User')
+                        @foreach($resultu as $mine)
+                        <!-- Total Ticket User -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-secondary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-2">
+                                                My Tickets</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$mine->totalticket}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-ticket fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        @endhasrole
                     </div>
-                    @endforeach
+
                     <div class="row">
                         <!-- <div class="chart-container row" style="position: relative; height:40vh; width:80vw">
                             <canvas id="myChart"></canvas>
@@ -178,15 +201,44 @@
                         </div>
                     </div>
                     </br>
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <button class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">All Alert</button>
+                            @hasrole('User')
+                            <button class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">My Alert</button>
+                            @endhasrole
+                        </div>
+                    </nav>
                     <div class="row d-flex justify-content-between">
                         <div class="card">
-                            <div class="card-header">
-                                <i class="fa fa-chart-pie"></i> Alert Ratio by Status
-                            </div>
                             <div class="card-body">
-                                <canvas id="pieChart" width="400" height="400"></canvas>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <i class="fa fa-chart-pie"></i> All Alert Ratio by Status
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="pieChart" width="400" height="400"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @hasrole('User')
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <i class="fa fa-chart-pie"></i> My Own Alert Ratio by Status
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="pieChartu" width="400" height="400"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endhasrole
+                                </div>
                             </div>
                         </div>
+
                         <div class="card">
                             <div class="card-header">
                                 <i class="fa fa-chart-pie"></i> Alert Ratio by PIC
@@ -283,10 +335,65 @@
         );
     </script>
 
+    <script>
+        $(document).ready(function() {
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            function poolColors(a) {
+                var pool = [];
+                for (i = 0; i < a; i++) {
+                    pool.push(getRandomColor());
+                }
+                return pool;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('index') }}",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    lab = response.data.map(function(e) {
+                        return e.desc
+                    })
+
+                    dat = response.data.map(function(e) {
+                        return e.totalalert
+                    })
+
+                    var ctx = $('#pieChart');
+                    var config1 = {
+                        type: 'pie',
+                        data: {
+                            labels: lab,
+                            datasets: [{
+                                label: 'Transaksi Status',
+                                data: dat,
+                                backgroundColor: poolColors(dat.length),
+
+                            }]
+                        }
+                    };
+                    var chart1 = new Chart(ctx, config1);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseJSON);
+                }
+            });
+        });
+    </script>
+
 
     <script>
-        var da = <?php echo json_encode($label); ?>;
-        var dat = <?php echo json_encode($data); ?>;
+        var lab = <?php echo json_encode($label); ?>;
+        var datau = <?php echo json_encode($datau); ?>;
 
         function getRandomColor() {
             var letters = '0123456789ABCDEF'.split('');
@@ -306,24 +413,24 @@
         }
 
 
-        const data1 = {
-            labels: da,
+        const datap = {
+            labels: lab,
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: poolColors(dat.length),
+                backgroundColor: poolColors(datau.length),
                 borderColor: 'white',
-                data: dat,
+                data: datau,
             }]
         };
 
-        const config1 = {
+        const configp = {
             type: 'pie',
-            data: data1,
+            data: datap,
             options: {}
         };
-        const pieChart = new Chart(
-            document.getElementById('pieChart'),
-            config1
+        const pieChartu = new Chart(
+            document.getElementById('pieChartu'),
+            configp
         );
     </script>
 

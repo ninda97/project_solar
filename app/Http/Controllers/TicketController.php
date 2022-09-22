@@ -22,21 +22,73 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $return = DB::table('trx_ticket')
-            ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
-            ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
-            ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
-            ->orderBy('trx_ticket.created_at')
-            ->get();
-        // ->paginate(1);
-        $users = User::all();
+        // $return = DB::table('trx_ticket')
+        //     ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+        //     ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
+        //     ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
+        //     ->orderBy('trx_ticket.created_at')
+        //     ->get();
 
-        return view('ticket', [
-            'trx_tickets' => $return,
-            'users'  => $users
-        ]);
+        $users = DB::table('users')
+            ->select('chatid')
+            ->where('chatid', auth()->user()->chatid)
+            ->first();
+        $data = "";
+
+        if (request()->ajax()) {
+            if ((auth()->user()->chatid != '' || auth()->user()->chatid != null) && $users->chatid == auth()->user()->chatid) {
+                if (!empty($request->from_date)) {
+
+                    $data = DB::table('trx_ticket')
+                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
+                        ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
+                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->where('users.chatid', auth()->user()->chatid)
+                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        ->get();
+                } else {
+                    $data = DB::table('trx_ticket')
+                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
+                        ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
+                        ->where('users.chatid', auth()->user()->chatid)
+                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        ->get();
+                }
+            } else {
+                if (!empty($request->from_date)) {
+                    $data = DB::table('trx_ticket')
+                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
+                        ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
+                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->groupBy('alertgroup.alertid', 'trx_ticket.id')
+                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        ->get();
+                } else {
+                    $data = DB::table('trx_ticket')
+                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
+                        ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
+                        ->groupBy('alertgroup.alertid', 'trx_ticket.id')
+                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        ->get();
+                }
+            }
+            return datatables()->of($data)
+                ->addColumn('Detail', function ($data) {
+                    $button = "<a href='trx_ticket/show/" . $data->id . "' class='btn btn-primary m-2'> 
+                    <i class='fas fa-info-circle'></i> </a>";
+                    return $button;
+                })
+                ->rawColumns(['Detail'])
+                ->make(true);
+        }
+
+        return view('ticket');
     }
 
     /**

@@ -57,47 +57,7 @@
                 <!-- Begin Page Content -->
                 <div class="container fluid">
                     <h3 align="center">Date Range Fiter Data in Laravel using Ajax</h3><br />
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-
-                            <br>
-                            <div class="row input-daterange">
-                                <div class="col-md-2">
-                                    <input type="text" name="from_date" id="from_date" class="form-control" placeholder="Start Date" readonly />
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" name="to_date" id="to_date" class="form-control" placeholder="End Date" readonly />
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
-                                    <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
-                                </div>
-                            </div>
-                            <br />
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="alertTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-auto">NO</th>
-                                            <th class="col-auto">Alert ID</th>
-                                            <th class="col-auto">Node Name</th>
-                                            <th class="col-auto">Node IP Address</th>
-                                            <th class="col-auto">Location</th>
-                                            <th class="col-auto">CPU Load</th>
-                                            <th class="col-auto">Percent Memory Used</th>
-                                            <th class="col-auto">Status</th>
-                                            <th class="col-auto">Created</th>
-                                            <!-- <th class="col-auto">Detail</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <canvas id="myChart"></canvas>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -140,89 +100,56 @@
 
     <script>
         $(document).ready(function() {
-
-            var _token = $('input[name="_token"]').val();
-
-
-            $('.input-daterange').datepicker({
-                todayBtn: 'linked',
-                format: 'yyyy-mm-dd',
-                autoclose: true
-            });
-
-            load_data();
-
-            function load_data(from_date = '', to_date = '') {
-                $('#alertTable').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ route('index') }}",
-                        data: {
-                            from_date: from_date,
-                            to_date: to_date,
-                            _token: _token
-                        }
-                    },
-                    columns: [{
-                            data: 'alertgroupid',
-                            name: 'alertgroupid'
-                        },
-                        {
-                            data: 'alertid',
-                            name: 'alertid'
-                        },
-                        {
-                            data: 'nodename',
-                            name: 'nodename'
-                        },
-                        {
-                            data: 'nodeipaddress',
-                            name: 'nodeipaddress'
-                        },
-                        {
-                            data: 'location',
-                            name: 'location'
-                        },
-                        {
-                            data: 'cpuload',
-                            name: 'cpuload'
-                        },
-                        {
-                            data: 'memoryused',
-                            name: 'memoryused'
-                        },
-                        {
-                            data: 'Status',
-                            name: 'Status'
-                        },
-                        {
-                            data: 'created_at',
-                            name: 'created_at'
-                        }
-                    ]
-                });
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
             }
 
-            $('#filter').click(function() {
-                var from_date = $('#from_date').val();
-                var to_date = $('#to_date').val();
-                if (from_date != '' && to_date != '') {
-                    $('#alertTable').DataTable().destroy();
-                    load_data(from_date, to_date);
-                } else {
-                    alert('Both Date is required');
+            function poolColors(a) {
+                var pool = [];
+                for (i = 0; i < a; i++) {
+                    pool.push(getRandomColor());
+                }
+                return pool;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "{{ route('index') }}",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    lab = response.data.map(function(e) {
+                        return e.desc
+                    })
+
+                    dat = response.data.map(function(e) {
+                        return e.totalalert
+                    })
+
+                    var ctx = $('#myChart');
+                    var configc = {
+                        type: 'pie',
+                        data: {
+                            labels: lab,
+                            datasets: [{
+                                label: 'Transaksi Status',
+                                data: dat,
+                                backgroundColor: poolColors(dat.length),
+
+                            }]
+                        }
+                    };
+                    var chartc = new Chart(ctx, configc);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseJSON);
                 }
             });
-
-            $('#refresh').click(function() {
-                $('#from_date').val('');
-                $('#to_date').val('');
-                $('#alertTable').DataTable().destroy();
-                load_data();
-            });
-
-            $.fn.dataTable.ext.errMode = 'throw';
         });
     </script>
 
