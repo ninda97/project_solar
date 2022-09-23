@@ -45,7 +45,7 @@ class TicketController extends Controller
                         ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
-                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
                         ->orderBy('trx_ticket.created_at', 'DESC')
@@ -66,7 +66,7 @@ class TicketController extends Controller
                         ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
-                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
                         ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();

@@ -31,7 +31,7 @@ class AlertGroupController extends Controller
                         ->select('alertgroup.*', 'users.name', 'status.description as description')
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
@@ -54,7 +54,7 @@ class AlertGroupController extends Controller
                         ->select('alertgroup.*', 'users.name', 'status.description as description')
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-                        ->whereBetween('alertgroup.created_at', array($request->from_date, $request->to_date))
+                        ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 } else {
