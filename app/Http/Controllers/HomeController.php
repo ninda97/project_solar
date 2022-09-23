@@ -78,13 +78,15 @@ class HomeController extends Controller
         $chartu = DB::table('alertgroup')
             ->select(
                 'chatid',
+                'description as desc',
                 DB::raw('count(alertgroupid) as totalalert'),
                 DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
                 DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
                 DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
             )
+            ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
             ->where('chatid', auth()->user()->chatid)
-            ->groupBy('status', 'chatid')
+            ->groupBy('alertgroup.status', 'alertgroup.chatid', 'status.description')
             ->get();
 
         $chartg = DB::table('alertgroup')
@@ -144,16 +146,9 @@ class HomeController extends Controller
             $month[] = $row->count;
         }
 
-        foreach ($labels as $row) {
-            $label[] = $row->description;
-        }
-
-        // foreach ($chart as $row) {
-        //     $data[] = $row->totalalert;
-        // }
-
         foreach ($chartu as $row) {
             $datau[] = $row->totalalert;
+            $label[] = $row->desc;
         }
 
         foreach ($chartg as $row) {
@@ -166,10 +161,6 @@ class HomeController extends Controller
             $pic[] = $row->picname;
         }
 
-        // $data['chart_data'] = json_encode($data);
-        // $data['l'] = json_encode($label);
-
-        // return view('home', compact('result'), $data, $label);
 
         if (request()->ajax()) {
             $labels =  DB::table('alertgroup')
@@ -191,10 +182,6 @@ class HomeController extends Controller
                 ->groupBy('alertgroup.status', 'status.description')
                 ->get();
 
-            // $items = DB::table('transaksis')
-            //             ->select(DB::raw('count(*) as jumlah, status'))
-            //             ->groupBy('status')
-            //             ->get();
 
             return response()->json([
                 'data' => $chart,
@@ -279,9 +266,5 @@ class HomeController extends Controller
             DB::rollBack();
             return back()->with('error', $th->getMessage());
         }
-    }
-
-    public function Chart(Request $request)
-    {
     }
 }
