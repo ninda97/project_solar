@@ -225,6 +225,9 @@
                             data: 'created_at',
                             name: 'created_at'
                         }
+                    ],
+                    order: [
+                        [0, 'desc']
                     ]
                 });
             }

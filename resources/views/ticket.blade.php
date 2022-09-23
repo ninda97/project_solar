@@ -154,6 +154,9 @@
                             data: 'Detail',
                             name: 'Detail'
                         }
+                    ],
+                    order: [
+                        [0, 'desc']
                     ]
                 });
             }
