@@ -209,33 +209,31 @@
                             @endhasrole
                         </div>
                     </nav>
-                    <div class="row d-flex">
+                    <div class="row">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <i class="fa fa-chart-pie"></i> All Alert Ratio by Status
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="pieChart" width="400" height="400"></canvas>
-                                            </div>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <i class="fa fa-chart-pie"></i> Dynamic Alert Ratio by Status
+                                        </div>
+                                        <div class="card-body" style="background-color: #B8D8A0;">
+                                            <canvas id="pieChart" width="400" height="400"></canvas>
                                         </div>
                                     </div>
-                                    @hasrole('User')
-                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <i class="fa fa-chart-pie"></i> My Own Alert Ratio by Status
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="pieChartu" width="400" height="400"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endhasrole
                                 </div>
+                                @hasrole('User')
+                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <i class="fa fa-chart-pie"></i> My Own Alert Ratio by Status
+                                        </div>
+                                        <div class="card-body" style="background-color: #B8D8A0;">
+                                            <canvas id="pieChartu" width="600" height="600" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endhasrole
                             </div>
                         </div>
 
@@ -243,7 +241,7 @@
                             <div class="card-header">
                                 <i class="fa fa-chart-pie"></i> Alert Ratio by PIC
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="background-color: #EBCCC5;">
                                 <canvas id="doughnutChart" width="400" height="400"></canvas>
                             </div>
                         </div>
@@ -252,7 +250,7 @@
                             <div class="card-header">
                                 <i class="fa fa-chart-pie"></i> Alert Ratio by Group Application
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="background-color:#A0D5D8;">
                                 <canvas id="polarChart" width="400" height="400"></canvas>
                             </div>
                         </div>
@@ -363,42 +361,66 @@
                 return pool;
             }
 
-            $.ajax({
-                type: "GET",
-                url: "{{ route('index') }}",
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    lab = response.data.map(function(e) {
-                        return e.desc
-                    })
+            // const plugin = {
+            //     id: 'custom_canvas_background_color',
+            //     beforeDraw: (chart) => {
+            //         const {
+            //             ctx
+            //         } = chart;
+            //         ctx.save();
+            //         ctx.globalCompositeOperation = 'destination-over';
+            //         ctx.fillStyle = 'lightGreen';
+            //         ctx.fillRect(0, 0, chart.width, chart.height);
+            //         ctx.restore();
+            //     }
+            // };
 
-                    dat = response.data.map(function(e) {
-                        return e.totalalert
-                    })
+            var colour = <?php echo json_encode($colors); ?>;
+            var ctx = $('#pieChart');
+            var chartc = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Transaksi Status',
+                        data: [],
+                        backgroundColor: poolColors(colour.length),
 
-                    var ctx = $('#pieChart');
-                    var config1 = {
-                        type: 'pie',
-                        data: {
-                            labels: lab,
-                            datasets: [{
-                                label: 'Transaksi Status',
-                                data: dat,
-                                backgroundColor: poolColors(dat.length),
-
-                            }]
-                        }
-                    };
-                    var chart1 = new Chart(ctx, config1);
+                    }],
+                    hoverOffset: 4
                 },
-                error: function(xhr) {
-                    console.log(xhr.responseJSON);
-                }
+                // plugins: [plugin],
             });
+
+            var updateChart = function() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('index') }}",
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        chartc.data.labels = response.data.map(function(e) {
+                            return e.desc
+                        })
+
+                        chartc.data.datasets[0].data = response.data.map(function(e) {
+                            return e.totalalert
+                        })
+
+                        chartc.update();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            }
+
+            updateChart();
+            setInterval(() => {
+                updateChart();
+            }, 2000);
         });
     </script>
-
 
     <script>
         var lab = <?php echo json_encode($label); ?>;
@@ -437,7 +459,7 @@
             data: datap,
             options: {}
         };
-        const pieChartu = new Chart(
+        const pieChartus = new Chart(
             document.getElementById('pieChartu'),
             configp
         );

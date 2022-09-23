@@ -67,6 +67,10 @@ class ChartController extends Controller
         //         ->make(true);
         // }
         // return view('chart');
+        $colors =  DB::table('status')
+            ->select('id')
+            ->get();
+
         if (request()->ajax()) {
             $labels =  DB::table('alertgroup')
                 ->select('status', 'description as desc')
@@ -97,7 +101,7 @@ class ChartController extends Controller
                 'labels' => $labels
             ]);
         }
-        return view('chart');
+        return view('chart', ['colors' => $colors]);
     }
 
     /**

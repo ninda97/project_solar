@@ -30,6 +30,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $colors =  DB::table('status')
+            ->select('id')
+            ->get();
 
         $result = DB::table('alertgroup')
             ->select(
@@ -198,7 +201,7 @@ class HomeController extends Controller
                 'labels' => $labels
             ]);
         }
-        return view('home', ['result' => $result, 'resultu' => $resultu, 'datag' => $datag, 'datau' => $datau, 'label' => $label, 'labelg' => $labelg, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
+        return view('home', ['colors' => $colors, 'result' => $result, 'resultu' => $resultu, 'datag' => $datag, 'datau' => $datau, 'label' => $label, 'labelg' => $labelg, 'label_month' => $label_month, 'month' => $month, 'datapic' => $datapic, 'pic' => $pic, 'barlabel' => $barlabel, 'bardata' => $bardata]);
     }
 
 

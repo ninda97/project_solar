@@ -117,39 +117,50 @@
                 return pool;
             }
 
-            $.ajax({
-                type: "GET",
-                url: "{{ route('index') }}",
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    lab = response.data.map(function(e) {
-                        return e.desc
-                    })
+            var colour = <?php echo json_encode($colors); ?>;
+            var ctx = $('#myChart');
+            var chartc = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Transaksi Status',
+                        data: [],
+                        backgroundColor: poolColors(colour.length),
 
-                    dat = response.data.map(function(e) {
-                        return e.totalalert
-                    })
-
-                    var ctx = $('#myChart');
-                    var configc = {
-                        type: 'pie',
-                        data: {
-                            labels: lab,
-                            datasets: [{
-                                label: 'Transaksi Status',
-                                data: dat,
-                                backgroundColor: poolColors(dat.length),
-
-                            }]
-                        }
-                    };
-                    var chartc = new Chart(ctx, configc);
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseJSON);
+                    }]
                 }
             });
+
+            var updateChart = function() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('index') }}",
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        chartc.data.labels = response.data.map(function(e) {
+                            return e.desc
+                        })
+
+                        chartc.data.datasets[0].data = response.data.map(function(e) {
+                            return e.totalalert
+                        })
+
+                        // chartc.data.backgroundColor = poolColors(response.data.totalalert);
+
+                        chartc.update();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            }
+
+            updateChart();
+            setInterval(() => {
+                updateChart();
+            }, 1000);
         });
     </script>
 
