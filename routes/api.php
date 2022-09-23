@@ -34,7 +34,7 @@ Route::get('/alertgroup', function() {
 
 });
 
-Route::put('/alertgroup', function() {
+Route::post('/alertgroup', function() {
 
     $result = AlertGroup::create([
         'alertid' => request('alertid'),
