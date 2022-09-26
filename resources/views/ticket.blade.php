@@ -40,25 +40,55 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Incident Tickets</h6>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-auto">Ticket ID</th>
-                                            <th class="col-auto">Alert ID</th>
-                                            <th class="col-auto">Assign To</th>
-                                            <th class="col-auto">Title</th>
-                                            <th class="col-auto">Ticket Type</th>
-                                            <th class="col-auto">Created Time</th>
-                                            <th class="col-auto">Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                        @hasrole('Admin')
+                        <section class="section">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-auto">Ticket ID</th>
+                                                    <th class="col-auto">Alert ID</th>
+                                                    <th class="col-auto">Assign To</th>
+                                                    <th class="col-auto">Title</th>
+                                                    <th class="col-auto">Ticket Type</th>
+                                                    <th class="col-auto">Created Time</th>
+                                                    <th class="col-auto">Detail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </section>
+                        @else
+                        <section class="section">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-auto">Ticket ID</th>
+                                                    <th class="col-auto">Alert ID</th>
+                                                    <th class="col-auto">Assign To</th>
+                                                    <th class="col-auto">Title</th>
+                                                    <th class="col-auto">Ticket Type</th>
+                                                    <th class="col-auto">Created Time</th>
+                                                    <th class="col-auto">Detail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        @endhasrole
                     </div>
                 </div>
                 <!-- /.container-fluid -->
