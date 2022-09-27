@@ -27,6 +27,7 @@ class AlertController extends Controller
                     $data = DB::table('alertgroup')
                         ->select(
                             'alertgroup.*',
+                            'alertgroup.alertid as al',
                             'users.name',
                             'status.description as description'
                         )
@@ -40,6 +41,7 @@ class AlertController extends Controller
                     $data = DB::table('alertgroup')
                         ->select(
                             'alertgroup.*',
+                            'alertgroup.alertid as al',
                             'users.name',
                             'status.description as description'
                         )
@@ -54,6 +56,7 @@ class AlertController extends Controller
                     $data = DB::table('alertgroup')
                         ->select(
                             'alertgroup.*',
+                            'alertgroup.alertid as al',
                             'users.name',
                             'status.description as description'
                         )
@@ -66,6 +69,7 @@ class AlertController extends Controller
                     $data = DB::table('alertgroup')
                         ->select(
                             'alertgroup.*',
+                            'alertgroup.alertid as al',
                             'users.name',
                             'status.description as description'
                         )
@@ -74,7 +78,13 @@ class AlertController extends Controller
                         ->get();
                 }
             }
-            return datatables()->of($data)->make(true);
+            return datatables()->of($data)
+                ->addColumn('alertid', function ($data) {
+                    $cobs = strval($data->al);
+                    return $cobs;
+                })
+                ->rawColumns(['alertid'])
+                ->make(true);
         }
 
         return view('data-alert');

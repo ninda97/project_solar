@@ -71,7 +71,6 @@
                                                     <th class="col-auto">Percent Memory Used</th>
                                                     <th class="col-auto">Status</th>
                                                     <th class="col-auto">Created</th>
-                                                    <!-- <th class="col-auto">Detail</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -194,12 +193,14 @@
                             name: 'alertgroupid'
                         },
                         {
-                            data: 'alertid',
-                            name: 'alertid'
+                            data: "alertid",
+                            name: "alertid",
+
                         },
                         {
                             data: 'nodename',
-                            name: 'nodename'
+                            name: 'nodename',
+
                         },
                         {
                             data: 'nodeipaddress',
@@ -227,8 +228,14 @@
                         }
                     ],
                     order: [
-                        [0, 'desc']
-                    ]
+                        [0, 'desc'],
+                    ],
+                    // columnDefs: [{
+
+                    //     type: 'numeric',
+                    //     targets: [0, 1],
+                    //     searchable: true
+                    // }]
                 });
             }
 

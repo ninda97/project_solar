@@ -43,7 +43,7 @@ class TicketController extends Controller
                 if (!empty($request->from_date)) {
 
                     $data = DB::table('trx_ticket')
-                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->select('trx_ticket.*', 'alertgroup.alertid as al', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
@@ -56,7 +56,7 @@ class TicketController extends Controller
                         ->get();
                 } else {
                     $data = DB::table('trx_ticket')
-                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->select('trx_ticket.*', 'alertgroup.alertid as al', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->where('users.chatid', auth()->user()->chatid)
@@ -70,7 +70,7 @@ class TicketController extends Controller
             } else {
                 if (!empty($request->from_date)) {
                     $data = DB::table('trx_ticket')
-                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->select('trx_ticket.*', 'alertgroup.alertid as al', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
@@ -83,7 +83,7 @@ class TicketController extends Controller
                 } else {
                     error_log("masukkkk");
                     $data = DB::table('trx_ticket')
-                        ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
+                        ->select('trx_ticket.*', 'alertgroup.alertid as al', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->where('alertgroup.status', '=', 2)
@@ -100,7 +100,11 @@ class TicketController extends Controller
                     <i class='fas fa-info-circle'></i> </a>";
                     return $button;
                 })
-                ->rawColumns(['Detail'])
+                ->addColumn('alertid', function ($data) {
+                    $cobs = strval($data->al);
+                    return $cobs;
+                })
+                ->rawColumns(['Detail', 'alertid'])
                 ->make(true);
         }
 

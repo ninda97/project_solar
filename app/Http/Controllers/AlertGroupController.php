@@ -28,7 +28,12 @@ class AlertGroupController extends Controller
                 if (!empty($request->from_date)) {
 
                     $data = DB::table('alertgroup')
-                        ->select('alertgroup.*', 'users.name', 'status.description as description')
+                        ->select(
+                            'alertgroup.*',
+                            'alertgroup.alertid as al',
+                            'users.name',
+                            'status.description as description'
+                        )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
@@ -39,6 +44,7 @@ class AlertGroupController extends Controller
                     $data = DB::table('alertgroup')
                         ->select(
                             'alertgroup.*',
+                            'alertgroup.alertid as al',
                             'users.name',
                             'status.description as description'
                         )
@@ -51,7 +57,7 @@ class AlertGroupController extends Controller
             } else {
                 if (!empty($request->from_date)) {
                     $data = DB::table('alertgroup')
-                        ->select('alertgroup.*', 'users.name', 'status.description as description')
+                        ->select('alertgroup.*', 'alertgroup.alertid as al',                        'users.name', 'status.description as description')
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
@@ -61,6 +67,7 @@ class AlertGroupController extends Controller
                     $data = DB::table('alertgroup')
                         ->select(
                             'alertgroup.*',
+                            'alertgroup.alertid as al',
                             'users.name',
                             'status.description as description'
                         )
@@ -83,7 +90,11 @@ class AlertGroupController extends Controller
 
                     return $button;
                 })
-                ->rawColumns(['Status'])
+                ->addColumn('alertid', function ($data) {
+                    $cobs = strval($data->al);
+                    return $cobs;
+                })
+                ->rawColumns(['Status', 'alertid'])
                 ->make(true);
         }
 
