@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Models\TrxTicket;
 use App\Models\User;
@@ -47,8 +48,11 @@ class TicketController extends Controller
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
+                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.chatid', '!=', '0')
+                        ->where('trx_ticket.chatid', '!=', '')
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
-                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        // ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 } else {
                     $data = DB::table('trx_ticket')
@@ -56,8 +60,11 @@ class TicketController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->where('users.chatid', auth()->user()->chatid)
+                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.chatid', '!=', '0')
+                        ->where('trx_ticket.chatid', '!=', '')
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
-                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        // ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 }
             } else {
@@ -67,8 +74,11 @@ class TicketController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
+                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.chatid', '!=', '0')
+                        ->where('trx_ticket.chatid', '!=', '')
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
-                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        // ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 } else {
                     error_log("masukkkk");
@@ -76,8 +86,11 @@ class TicketController extends Controller
                         ->select('trx_ticket.*', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
-                        // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
-                        ->orderBy('trx_ticket.created_at', 'DESC')
+                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.chatid', '!=', '0')
+                        ->where('trx_ticket.chatid', '!=', '')
+                        // ->groupBy('alertgroup.alertid')
+                        // ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 }
             }

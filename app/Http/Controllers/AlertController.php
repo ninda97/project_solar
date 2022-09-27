@@ -13,7 +13,7 @@ class AlertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = DB::table('users')
             ->select('chatid')
@@ -23,28 +23,56 @@ class AlertController extends Controller
         if (request()->ajax()) {
             if ((auth()->user()->chatid != '' || auth()->user()->chatid != null) && $users->chatid == auth()->user()->chatid) {
 
-                $data = DB::table('alertgroup')
-                    ->select(
-                        'alertgroup.*',
-                        'users.name',
-                        'status.description as description'
-                    )
-                    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-                    ->where('users.chatid', auth()->user()->chatid)
-                    ->orderBy('alertgroup.alertgroupid', 'DESC')
-                    ->get();
+                if (!empty($request->from_date)) {
+                    $data = DB::table('alertgroup')
+                        ->select(
+                            'alertgroup.*',
+                            'users.name',
+                            'status.description as description'
+                        )
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
+                        ->where('users.chatid', auth()->user()->chatid)
+                        ->orderBy('alertgroup.created_at', 'DESC')
+                        ->get();
+                } else {
+                    $data = DB::table('alertgroup')
+                        ->select(
+                            'alertgroup.*',
+                            'users.name',
+                            'status.description as description'
+                        )
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->where('users.chatid', auth()->user()->chatid)
+                        ->orderBy('alertgroup.created_at', 'DESC')
+                        ->get();
+                }
             } else {
-                $data = DB::table('alertgroup')
-                    ->select(
-                        'alertgroup.*',
-                        'users.name',
-                        'status.description as description'
-                    )
-                    ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
-                    ->orderBy('alertgroup.alertgroupid', 'DESC')
-                    ->get();
+                if (!empty($request->from_date)) {
+                    $data = DB::table('alertgroup')
+                        ->select(
+                            'alertgroup.*',
+                            'users.name',
+                            'status.description as description'
+                        )
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
+                        ->orderBy('alertgroup.created_at', 'DESC')
+                        ->get();
+                } else {
+                    $data = DB::table('alertgroup')
+                        ->select(
+                            'alertgroup.*',
+                            'users.name',
+                            'status.description as description'
+                        )
+                        ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
+                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->get();
+                }
             }
             return datatables()->of($data)->make(true);
         }

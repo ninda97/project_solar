@@ -34,68 +34,52 @@
 
                     {{-- Alert Messages --}}
                     @include('common.alert')
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Incident Tickets</h6>
+                    <section class="section">
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Incident Tickets</h6>
+                            </div>
+                            <div class="card-body">
+                                <br>
+                                <div class="row input-daterange">
+                                    <div class="col-md-2">
+                                        <input type="text" name="from_date" id="from_date" class="form-control" placeholder="Start Date" readonly />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="to_date" id="to_date" class="form-control" placeholder="End Date" readonly />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                                        <button type="button" name="refresh" id="refresh" class="btn btn-warning">Refresh</button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-auto">Ticket ID</th>
+                                                <th class="col-auto">Alert ID</th>
+                                                <th class="col-auto">Assign To</th>
+                                                <th class="col-auto">Title</th>
+                                                <th class="col-auto">Ticket Type</th>
+                                                <th class="col-auto">Created Time</th>
+                                                <th class="col-auto">Detail</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        @hasrole('Admin')
-                        <section class="section">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-auto">Ticket ID</th>
-                                                    <th class="col-auto">Alert ID</th>
-                                                    <th class="col-auto">Assign To</th>
-                                                    <th class="col-auto">Title</th>
-                                                    <th class="col-auto">Ticket Type</th>
-                                                    <th class="col-auto">Created Time</th>
-                                                    <th class="col-auto">Detail</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        @else
-                        <section class="section">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-auto">Ticket ID</th>
-                                                    <th class="col-auto">Alert ID</th>
-                                                    <th class="col-auto">Assign To</th>
-                                                    <th class="col-auto">Title</th>
-                                                    <th class="col-auto">Ticket Type</th>
-                                                    <th class="col-auto">Created Time</th>
-                                                    <th class="col-auto">Detail</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        @endhasrole
-                    </div>
+                    </section>
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
-
             <!-- Footer -->
             @include('common.footer')
             <!-- End of Footer -->
