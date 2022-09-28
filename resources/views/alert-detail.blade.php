@@ -40,7 +40,6 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Detail Alert</h6>
                         </div>
-                        @hasrole('Admin')
                         <section class="section">
                             <div class="card">
                                 <div class="card-body">
@@ -80,47 +79,6 @@
                                 </div>
                             </div>
                         </section>
-                        @else
-                        <section class="section">
-                            <div class="card">
-                                <div class="card-body">
-                                    <br>
-                                    <div class="row input-daterange">
-                                        <div class="col-md-2">
-                                            <input type="text" name="from_date" id="from_date" class="form-control" placeholder="Start Date" readonly />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" name="to_date" id="to_date" class="form-control" placeholder="End Date" readonly />
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
-                                            <button type="button" name="refresh" id="refresh" class="btn btn-warning">Refresh</button>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <table class="table table-striped" id="alertTable">
-                                        <thead>
-                                            <tr>
-                                                <th class="col-auto">NO</th>
-                                                <th class="col-auto">Alert ID</th>
-                                                <th class="col-auto">Node Name</th>
-                                                <th class="col-auto">Node IP Address</th>
-                                                <th class="col-auto">Location</th>
-                                                <th class="col-auto">CPU Load</th>
-                                                <th class="col-auto">Percent Memory Used</th>
-                                                <th class="col-auto">Status</th>
-                                                <th class="col-auto">Created</th>
-                                                <!-- <th class="col-auto">Detail</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </section>
-                        @endhasrole
                     </div>
                 </div>
                 <!-- /.container-fluid -->

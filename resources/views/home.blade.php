@@ -324,10 +324,17 @@
         const data = {
             labels: labels,
             datasets: [{
+                fill: true,
                 label: 'Total Alert',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.3)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)'
+                ],
+                borderWidth: 1,
                 data: dats,
+
             }]
         };
 
@@ -554,11 +561,14 @@
     <script>
         var barlabel = <?php echo json_encode($barlabel); ?>;
         var bardata = <?php echo json_encode($bardata); ?>;
+        // Chart.defaults.color = "#FFFFFF";
+        // Chart.defaults.scale.grid.display = false;
+
         const databar = {
             labels: barlabel,
             datasets: [{
                 label: "Waning",
-                backgroundColor: 'rgba(255, 178, 102, 0.7)',
+                backgroundColor: 'rgba(255, 199, 39)',
                 data: [bardata[0][0], bardata[1][0], bardata[2][0]],
             }, {
                 label: "Critical",

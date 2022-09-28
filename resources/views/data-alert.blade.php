@@ -41,7 +41,6 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Data Alert Telegram</h6>
                         </div>
-                        @hasrole('Admin')
                         <section class="section">
                             <div class="card">
                                 <div class="card-body">
@@ -76,28 +75,6 @@
                                 </div>
                             </div>
                         </section>
-                        @else
-                        <section class="section">
-                            <div class="card">
-                                <div class="card-body">
-                                    <table class="table table-striped" id="alertPicTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Alert ID</th>
-                                                <th>Node Name</th>
-                                                <th>IP Address</th>
-                                                <th>Message</th>
-                                                <th>PIC</th>
-                                                <th>Created</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </section>
-                        @endhasrole
                     </div>
 
                 </div>
