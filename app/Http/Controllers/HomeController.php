@@ -37,9 +37,9 @@ class HomeController extends Controller
         $result = DB::table('alertgroup')
             ->select(
                 DB::raw('count(alertgroupid) as totalalert'),
-                DB::raw('count(case when status = 3 then 1 else null end) as totalwarning'),
-                DB::raw('count(case when status = 2 then 1 else null end) as totaldown'),
-                DB::raw('count(case when status = 13 then 1 else null end) as totalcritical'),
+                DB::raw('count(case when status = "Warning" then 1 else null end) as totalwarning'),
+                DB::raw('count(case when status = "Down" then 1 else null end) as totaldown'),
+                DB::raw('count(case when status = "Critical" then 1 else null end) as totalcritical'),
                 DB::raw('count(distinct(trx_ticket.id)) as totalticket')
             )
             ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
@@ -48,9 +48,9 @@ class HomeController extends Controller
         $resultu = DB::table('alertgroup')
             ->select(
                 DB::raw('count(alertgroupid) as totalalert'),
-                DB::raw('count(case when status = 3 then 1 else null end) as totalwarning'),
-                DB::raw('count(case when status = 2 then 1 else null end) as totaldown'),
-                DB::raw('count(case when status = 13 then 1 else null end) as totalcritical'),
+                DB::raw('count(case when status = "Warning" then 1 else null end) as totalwarning'),
+                DB::raw('count(case when status = "Down" then 1 else null end) as totaldown'),
+                DB::raw('count(case when status = "Critical" then 1 else null end) as totalcritical'),
                 DB::raw('count(distinct(trx_ticket.id)) as totalticket')
             )
             ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
@@ -59,7 +59,7 @@ class HomeController extends Controller
 
         $labels =  DB::table('alertgroup')
             ->select('status', 'description')
-            ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+            ->leftJoin('status', 'alertgroup.status', '=', 'status.description')
             ->groupBy('alertgroup.status', 'status.description')
             ->get();
 
@@ -68,10 +68,10 @@ class HomeController extends Controller
                 'status',
                 'description as desc',
                 DB::raw('count(alertgroupid) as totalalert'),
-                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
-                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
-                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
-            )->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                DB::raw('count(case when status = "Warning" then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = "Down" then 1 else null end) as totdown'),
+                DB::raw('count(case when status = "Critical" then 1 else null end) as totcrit'),
+            )->leftJoin('status', 'alertgroup.status', '=', 'status.description')
             ->groupBy('alertgroup.status', 'status.description')
             ->get();
 
@@ -80,11 +80,11 @@ class HomeController extends Controller
                 'chatid',
                 'description as desc',
                 DB::raw('count(alertgroupid) as totalalert'),
-                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
-                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
-                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+                DB::raw('count(case when status = "Warning" then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = "Down" then 1 else null end) as totdown'),
+                DB::raw('count(case when status = "Critical" then 1 else null end) as totcrit'),
             )
-            ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+            ->leftJoin('status', 'alertgroup.status', '=', 'status.description')
             ->where('chatid', auth()->user()->chatid)
             ->groupBy('alertgroup.status', 'alertgroup.chatid', 'status.description')
             ->get();
@@ -110,9 +110,9 @@ class HomeController extends Controller
             ->select(
                 'location',
                 DB::raw('count(alertgroupid) as totalalert'),
-                DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
-                DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
-                DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
+                DB::raw('count(case when status = "Warning" then 1 else null end) as totwarn'),
+                DB::raw('count(case when status = "Down" then 1 else null end) as totdown'),
+                DB::raw('count(case when status = "Critical" then 1 else null end) as totcrit'),
             )
             ->groupBy('location')
             ->get();
@@ -165,7 +165,7 @@ class HomeController extends Controller
         if (request()->ajax()) {
             $labels =  DB::table('alertgroup')
                 ->select('status', 'description as desc')
-                ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                ->leftJoin('status', 'alertgroup.status', '=', 'status.description')
                 ->groupBy('alertgroup.status', 'status.description')
                 ->get();
 
@@ -175,10 +175,10 @@ class HomeController extends Controller
                     'status',
                     'description as desc',
                     DB::raw('count(alertgroupid) as totalalert'),
-                    DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
-                    DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
-                    DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
-                )->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                    DB::raw('count(case when status = "Warning" then 1 else null end) as totwarn'),
+                    DB::raw('count(case when status = "Down" then 1 else null end) as totdown'),
+                    DB::raw('count(case when status = "Critical" then 1 else null end) as totcrit'),
+                )->leftJoin('status', 'alertgroup.status', '=', 'status.description')
                 ->groupBy('alertgroup.status', 'status.description')
                 ->get();
 

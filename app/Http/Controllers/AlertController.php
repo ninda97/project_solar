@@ -32,7 +32,7 @@ class AlertController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
                         ->orderBy('alertgroup.created_at', 'DESC')
@@ -46,7 +46,7 @@ class AlertController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->where('users.chatid', auth()->user()->chatid)
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
@@ -61,7 +61,7 @@ class AlertController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
@@ -74,7 +74,7 @@ class AlertController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->get();
                 }
             }

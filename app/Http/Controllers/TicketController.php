@@ -13,9 +13,9 @@ class TicketController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:ticket-list', ['only' => ['index']]);
-        $this->middleware('permission:ticket-show', ['only' => ['show']]);
-        $this->middleware('permission:ticket-update', ['only' => ['update']]);
+        // $this->middleware('permission:ticket-list', ['only' => ['index']]);
+        // $this->middleware('permission:ticket-show', ['only' => ['show']]);
+        // $this->middleware('permission:ticket-update', ['only' => ['update']]);
     }
 
     /**
@@ -48,7 +48,7 @@ class TicketController extends Controller
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
-                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.status', '=', "Down")
                         ->where('alertgroup.chatid', '!=', '0')
                         ->where('trx_ticket.chatid', '!=', '')
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
@@ -60,7 +60,7 @@ class TicketController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->where('users.chatid', auth()->user()->chatid)
-                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.status', '=', "Down")
                         ->where('alertgroup.chatid', '!=', '0')
                         ->where('trx_ticket.chatid', '!=', '')
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
@@ -74,7 +74,7 @@ class TicketController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
-                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.status', '=', "Down")
                         ->where('alertgroup.chatid', '!=', '0')
                         ->where('trx_ticket.chatid', '!=', '')
                         // ->groupBy('trx_ticket.id', 'trx_ticket.alertid')
@@ -86,11 +86,9 @@ class TicketController extends Controller
                         ->select('trx_ticket.*', 'alertgroup.alertid as al', 'trx_ticket.id', 'users.name')
                         ->leftjoin('users', 'users.chatid', '=', 'trx_ticket.chatid')
                         ->leftjoin('alertgroup', 'alertgroup.alertid', '=', 'trx_ticket.alertid')
-                        ->where('alertgroup.status', '=', 2)
+                        ->where('alertgroup.status', '=', 'Down')
                         ->where('alertgroup.chatid', '!=', '0')
                         ->where('trx_ticket.chatid', '!=', '')
-                        // ->groupBy('alertgroup.alertid')
-                        // ->orderBy('trx_ticket.created_at', 'DESC')
                         ->get();
                 }
             }

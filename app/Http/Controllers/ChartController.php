@@ -32,7 +32,7 @@ class ChartController extends Controller
         //         $data = DB::table('alertgroup')
         //             ->select('alertgroup.*', 'users.name', 'status.description')
         //             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-        //             ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+        //             ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
         //             ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
         //             ->get();
         //     } else {
@@ -42,12 +42,12 @@ class ChartController extends Controller
         //                 'alertgroup.alertgroupid as id',
         //                 'users.name',
         //                 'status.description as description',
-        //                 DB::raw('case when alertgroup.status = 3 then "Warning" end as warning'),
-        //                 DB::raw('case when alertgroup.status = 2 then "Down" end as down'),
-        //                 DB::raw('case when alertgroup.status = 13 then "Critical" end as critical')
+        //                 DB::raw('case when alertgroup.status = "Warning" then "Warning" end as warning'),
+        //                 DB::raw('case when alertgroup.status = "Down" then "Down" end as down'),
+        //                 DB::raw('case when alertgroup.status = "Critical" then "Critical" end as critical')
         //             )
         //             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-        //             ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+        //             ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
         //             ->get();
         //     }
         //     return datatables()->of($data)
@@ -74,7 +74,7 @@ class ChartController extends Controller
         if (request()->ajax()) {
             $labels =  DB::table('alertgroup')
                 ->select('status', 'description as desc')
-                ->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                ->leftJoin('status', 'alertgroup.status', '=', 'status.description')
                 ->groupBy('alertgroup.status', 'status.description')
                 ->get();
 
@@ -84,10 +84,10 @@ class ChartController extends Controller
                     'status',
                     'description as desc',
                     DB::raw('count(alertgroupid) as totalalert'),
-                    DB::raw('count(case when status = 3 then 1 else null end) as totwarn'),
-                    DB::raw('count(case when status = 2 then 1 else null end) as totdown'),
-                    DB::raw('count(case when status = 13 then 1 else null end) as totcrit'),
-                )->leftJoin('status', 'alertgroup.status', '=', 'status.id')
+                    DB::raw('count(case when status = "Warning" then 1 else null end) as totwarn'),
+                    DB::raw('count(case when status = "Down" then 1 else null end) as totdown'),
+                    DB::raw('count(case when status = "Critical" then 1 else null end) as totcrit'),
+                )->leftJoin('status', 'alertgroup.status', '=', 'status.description')
                 ->groupBy('alertgroup.status', 'status.description')
                 ->get();
 

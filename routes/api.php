@@ -27,7 +27,7 @@ Route::get('/alertgroup', function() {
     
     $return = DB::table('alertgroup')
     ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-    ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+    ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
     ->get();
 
     return($return);
@@ -35,6 +35,8 @@ Route::get('/alertgroup', function() {
 });
 
 Route::post('/alertgroup', function() {
+
+    error_log(request()->getContent());
 
     $result = AlertGroup::create([
         'alertid' => request('alertid'),
@@ -54,7 +56,7 @@ Route::post('/alertgroup', function() {
     ->get();
     
     $status = DB::table('status')
-    ->where('id', '=', request('status'))
+    ->where('description', '=', request('status'))
     ->where('iscreated', '=', 1)
     ->get();
 

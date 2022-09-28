@@ -35,7 +35,7 @@ class AlertGroupController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
                         ->orderBy('alertgroup.created_at', 'DESC')
@@ -49,7 +49,7 @@ class AlertGroupController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->where('users.chatid', auth()->user()->chatid)
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
@@ -57,9 +57,9 @@ class AlertGroupController extends Controller
             } else {
                 if (!empty($request->from_date)) {
                     $data = DB::table('alertgroup')
-                        ->select('alertgroup.*', 'alertgroup.alertid as al',                        'users.name', 'status.description as description')
+                        ->select('alertgroup.*', 'alertgroup.alertid as al', 'users.name', 'status.description as description')
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
@@ -72,7 +72,7 @@ class AlertGroupController extends Controller
                             'status.description as description'
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-                        ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+                        ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 }
@@ -134,7 +134,7 @@ class AlertGroupController extends Controller
         $alert = DB::table('alertgroup')
             ->select('alertgroup.*', 'users.name', 'status.description')
             ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
-            ->leftjoin('status', 'status.id', '=', 'alertgroup.status')
+            ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
             ->where('alertgroupid', $id)
             ->first();
 
