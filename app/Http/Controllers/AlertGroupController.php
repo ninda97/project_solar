@@ -38,6 +38,7 @@ class AlertGroupController extends Controller
                         ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
                         ->where('users.chatid', auth()->user()->chatid)
+                        ->groupBy('alertgroup.alertid')
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 } else {
@@ -51,6 +52,7 @@ class AlertGroupController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->where('users.chatid', auth()->user()->chatid)
+                        ->groupBy('alertgroup.alertid')
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 }
@@ -61,6 +63,7 @@ class AlertGroupController extends Controller
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
                         ->whereBetween('alertgroup.created_at', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
+                        ->groupBy('alertgroup.alertid')
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 } else {
@@ -73,6 +76,7 @@ class AlertGroupController extends Controller
                         )
                         ->leftjoin('users', 'users.chatid', '=', 'alertgroup.chatid')
                         ->leftjoin('status', 'status.description', '=', 'alertgroup.status')
+                        ->groupBy('alertgroup.alertid')
                         ->orderBy('alertgroup.created_at', 'DESC')
                         ->get();
                 }
