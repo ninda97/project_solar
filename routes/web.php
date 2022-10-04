@@ -52,9 +52,12 @@ Route::middleware('auth')->prefix('trx_ticket')->name('trx_ticket.')->group(func
 Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('/create', [UserController::class, 'create'])->name('create');
+    Route::get('/export', [UserController::class, 'export'])->name('export');
     Route::post('/store', [UserController::class, 'store'])->name('store');
     Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
     Route::put('/update/{user}', [UserController::class, 'update'])->name('update');
     Route::get('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
 });
+
+// Route::get('users/export/', [UsersController::class, 'export']);

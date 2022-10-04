@@ -10,6 +10,7 @@
         <h1 class="h3 mb-0 text-gray-800">Users</h1>
         <div class="row">
             <div class="col-md-12">
+                <a href="/users/export" class="btn btn-success my-3" target="_blank">EXPORT Userlist</a>
                 <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
                     <i class="fas fa-plus"></i> Add User
                 </a>

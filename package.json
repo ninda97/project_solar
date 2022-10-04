@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "chart.js": "^3.9.1"
+        "chart.js": "^3.9.1",
+        "pdfmake": "^0.2.5"
     }
 }

@@ -1,8 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{{-- Include Head --}}
-@include('common.head')
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('name', 'Alert') }} | Incident Ticket </title>
+
+    {{-- ICON --}}
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/btn.jpg') }}" />
+
+    <!-- Font Awesome UI KIT-->
+    <script src="https://kit.fontawesome.com/f75ab26951.js" crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+
+</head>
 
 <body id="page-top">
 
@@ -54,8 +82,9 @@
                                         <button type="button" name="refresh" id="refresh" class="btn btn-warning">Refresh</button>
                                     </div>
                                 </div>
-                                <br />
-                                <div class="table-responsive">
+                                <div class="print-buttons text-right">Export Table<br /></div>
+
+                                <div style="overflow-x:auto;">
                                     <table class="table table-bordered table-striped" id="ticketTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -70,6 +99,16 @@
                                         </thead>
                                         <tbody>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="col-auto">Ticket ID</th>
+                                                <th class="col-auto">Alert ID</th>
+                                                <th class="col-auto">Assign To</th>
+                                                <th class="col-auto">Title</th>
+                                                <th class="col-auto">Ticket Type</th>
+                                                <th class="col-auto">Created Time</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -104,7 +143,6 @@
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
 
 
-
     <!-- Custom scripts for all pages-->
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
@@ -113,6 +151,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -128,8 +171,21 @@
 
             load_data();
 
+            // $('#ticketTable thead tr')
+            //     .clone(true)
+            //     .addClass('filters')
+            //     .appendTo('#ticketTable thead');
+
+            $('#ticketTable tfoot th').each(function() {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+
             function load_data(from_date = '', to_date = '') {
-                $('#ticketTable').DataTable({
+
+                var table = $('#ticketTable').DataTable({
+                    fixedColumns: true,
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -171,8 +227,52 @@
                     ],
                     order: [
                         [0, 'desc']
-                    ]
+                    ],
+                    dom: 'Blfrtip',
+                    buttons: [{
+                            extend: 'copyHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        },
+                    ],
+                    initComplete: function() {
+                        // Apply the search
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                var that = this;
+
+                                $('input', this.footer()).on('keyup change clear', function() {
+                                    if (that.search() !== this.value) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                    },
                 });
+
+                table.buttons().container()
+                    .appendTo($('.print-buttons'));
+
             }
 
             $('#filter').click(function() {

@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -234,6 +235,8 @@ return [
         'timezone' => 'Asia/Jakarta',
         'locale' => 'id',
         'faker_locale' => 'id_ID',
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
 
     ],
 

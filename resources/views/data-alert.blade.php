@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{{-- Include Head --}}
-@include('common.head')
-@section('title', 'Alert&PIC')
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('name', 'Alert') }} | Alert & PIC</title>
+
+    {{-- ICON --}}
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('images/btn.jpg') }}" />
+
+    <!-- Font Awesome UI KIT-->
+    <script src="https://kit.fontawesome.com/f75ab26951.js" crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/b-print-1.5.1/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/datatables.min.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" /> -->
+
+
+</head>
 
 <body id="page-top">
 
@@ -57,21 +88,35 @@
                                             <button type="button" name="refresh" id="refresh" class="btn btn-warning">Refresh</button>
                                         </div>
                                     </div>
-                                    <br />
-                                    <table class="table table-striped" id="alertPicTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Alert ID</th>
-                                                <th>Node Name</th>
-                                                <th>IP Address</th>
-                                                <th>Message</th>
-                                                <th>PIC</th>
-                                                <th>Created</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                    <div class="print-buttons text-right">Export Table<br /></div>
+
+                                    <div style="overflow-x:auto;">
+                                        <table class="table table-striped" id="alertPicTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Alert ID</th>
+                                                    <th>Node Name</th>
+                                                    <th>IP Address</th>
+                                                    <th>Message</th>
+                                                    <th>PIC</th>
+                                                    <th>Created</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Alert ID</th>
+                                                    <th>Node Name</th>
+                                                    <th>IP Address</th>
+                                                    <th>Message</th>
+                                                    <th>PIC</th>
+                                                    <th>Created</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+
                                 </div>
                             </div>
                         </section>
@@ -114,6 +159,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+
     <script>
         $(document).ready(function() {
 
@@ -128,8 +178,21 @@
 
             load_data();
 
+            // $('#alertPicTable thead tr')
+            //     .clone(true)
+            //     .addClass('filters')
+            //     .appendTo('#alertPicTable thead');
+
+            $('#alertPicTable tfoot th').each(function() {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+
             function load_data(from_date = '', to_date = '') {
-                $('#alertPicTable').DataTable({
+
+                var table = $('#alertPicTable').DataTable({
+                    fixedColumns: true,
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -167,8 +230,30 @@
                     ],
                     order: [
                         [0, 'desc']
-                    ]
+                    ],
+                    dom: 'Blfrtip',
+                    buttons: [
+                        'copy', 'excel', 'pdf', 'print',
+                    ],
+                    initComplete: function() {
+                        // Apply the search
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                var that = this;
+
+                                $('input', this.footer()).on('keyup change clear', function() {
+                                    if (that.search() !== this.value) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                    },
                 });
+
+                table.buttons().container()
+                    .appendTo($('.print-buttons'));
+
             }
 
             $('#filter').click(function() {
@@ -192,6 +277,7 @@
             $.fn.dataTable.ext.errMode = 'throw';
         });
     </script>
+
     @yield('scripts')
 </body>
 
