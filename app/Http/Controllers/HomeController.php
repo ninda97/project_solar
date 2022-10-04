@@ -40,7 +40,7 @@ class HomeController extends Controller
                 DB::raw('count(case when status = "Warning" then 1 else null end) as totalwarning'),
                 DB::raw('count(case when status = "Down" then 1 else null end) as totaldown'),
                 DB::raw('count(case when status = "Critical" then 1 else null end) as totalcritical'),
-                DB::raw('count(distinct(trx_ticket.id)) as totalticket')
+                DB::raw('count(trx_ticket.id) as totalticket')
             )
             ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
             ->get();
@@ -51,7 +51,7 @@ class HomeController extends Controller
                 DB::raw('count(case when status = "Warning" then 1 else null end) as totalwarning'),
                 DB::raw('count(case when status = "Down" then 1 else null end) as totaldown'),
                 DB::raw('count(case when status = "Critical" then 1 else null end) as totalcritical'),
-                DB::raw('count(distinct(trx_ticket.id)) as totalticket')
+                DB::raw('count(trx_ticket.id) as totalticket')
             )
             ->leftjoin('trx_ticket', 'trx_ticket.alertid', '=', 'alertgroup.alertid')
             ->where('trx_ticket.chatid', auth()->user()->chatid)
@@ -60,7 +60,7 @@ class HomeController extends Controller
         $labels =  DB::table('alertgroup')
             ->select('status', 'description')
             ->leftJoin('status', 'alertgroup.status', '=', 'status.description')
-            ->groupBy('alertgroup.status', 'status.description')
+            ->groupBy('alertgroup.status', 'status.description','alertgroup.alertid')
             ->get();
 
         $chart = DB::table('alertgroup')
@@ -72,7 +72,7 @@ class HomeController extends Controller
                 DB::raw('count(case when status = "Down" then 1 else null end) as totdown'),
                 DB::raw('count(case when status = "Critical" then 1 else null end) as totcrit'),
             )->leftJoin('status', 'alertgroup.status', '=', 'status.description')
-            ->groupBy('alertgroup.status', 'status.description')
+            ->groupBy('alertgroup.status', 'status.description','alertgroup.alertid')
             ->get();
 
         $chartu = DB::table('alertgroup')
