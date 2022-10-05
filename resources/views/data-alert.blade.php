@@ -233,7 +233,7 @@
                     ],
                     dom: 'Blfrtip',
                     buttons: [
-                        'copy', 'excel', 'pdf', 'print',
+                        'copy', 'excel', 'pdf',
                     ],
                     initComplete: function() {
                         // Apply the search

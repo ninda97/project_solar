@@ -89,8 +89,8 @@
                                         </div>
                                     </div>
                                     <div class="print-buttons text-right">Export Table<br /></div>
-                                    <div class="table-responsive" style="overflow-x:auto;">
-                                        <table class="table table-striped table-bordered" id="alertTable">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-responsive" id="alertTable" style="overflow-x:auto;">
                                             <thead>
                                                 <tr>
                                                     <th class="col-auto">NO</th>
@@ -253,7 +253,7 @@
                     ],
                     dom: 'Blfrtip',
                     buttons: [
-                        'copy', 'excel', 'pdf', 'print',
+                        'copy', 'excel', 'pdf',
                     ],
                     initComplete: function() {
                         // Apply the search

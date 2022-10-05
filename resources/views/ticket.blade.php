@@ -247,12 +247,12 @@
                                 columns: [0, 1, 2, 3, 4, 5]
                             }
                         },
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4, 5]
-                            }
-                        },
+                        // {
+                        //     extend: 'print',
+                        //     exportOptions: {
+                        //         columns: [0, 1, 2, 3, 4, 5]
+                        //     }
+                        // },
                     ],
                     initComplete: function() {
                         // Apply the search
