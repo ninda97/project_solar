@@ -89,9 +89,8 @@
                                         </div>
                                     </div>
                                     <div class="print-buttons text-right">Export Table<br /></div>
-
-                                    <div style="overflow-x:auto;">
-                                        <table class="table table-striped" id="alertPicTable">
+                                    <div class="table-responsive" style="overflow-x:auto;">
+                                        <table class="table table-striped table-bordered" id="alertPicTable">
                                             <thead>
                                                 <tr>
                                                     <th>Alert ID</th>
@@ -229,7 +228,7 @@
                         }
                     ],
                     order: [
-                        [0, 'desc']
+                        [5, 'desc']
                     ],
                     dom: 'Blfrtip',
                     buttons: [
